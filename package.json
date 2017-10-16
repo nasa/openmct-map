@@ -18,5 +18,26 @@
   "bugs": {
     "url": "https://github.com/VWoeltjen/openmct-heatmap/issues"
   },
-  "homepage": "https://github.com/VWoeltjen/openmct-heatmap#readme"
+  "homepage": "https://github.com/VWoeltjen/openmct-heatmap#readme",
+  "dependencies": {
+    "heatmap.js": "^2.0.5"
+  },
+  "devDependencies": {
+    "git-rev-sync": "^1.9.1",
+    "gulp": "^3.9.1",
+    "gulp-jscs": "^4.0.0",
+    "gulp-jshint": "^2.0.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace-task": "^0.11.0",
+    "gulp-requirejs-optimize": "^1.2.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.1",
+    "jshint": "^2.9.5",
+    "karma": "^1.7.1",
+    "lodash": "^4.17.4",
+    "merge-stream": "^1.0.1",
+    "mkdirp": "^0.5.1",
+    "moment": "^2.19.1",
+    "node-bourbon": "^4.2.8"
+  }
 }
