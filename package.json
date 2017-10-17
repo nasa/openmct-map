@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/VWoeltjen/openmct-heatmap#readme",
   "dependencies": {
-    "heatmap.js": "^2.0.5"
   },
   "devDependencies": {
     "git-rev-sync": "^1.9.1",
