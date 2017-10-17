@@ -17,9 +17,11 @@ define([
 
     HeatmapView.prototype.show = function (container) {
         var canvas = this.document.createElement('canvas');
-        var renderer = new HeatmapRenderer(canvas, new HeatmapColors());
+        var renderer = new HeatmapRenderer(canvas, new HeatmapColors(0, 5));
         var model = new HeatmapModel();
         var controller = new HeatmapController(model, renderer, this.openmct);
+
+        canvas.width = canvas.height = 1000;
 
         this.unobserve = controller.observe(this.domainObject);
 
