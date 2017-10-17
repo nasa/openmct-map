@@ -1,7 +1,7 @@
 define([], function () {
-    function HeatmapController(heatmapRenderer, heatmapView, openmct) {
+    function HeatmapController(heatmapModel, heatmapRenderer, openmct) {
+        this.heatmapModel = heatmapModel;
         this.heatmapRenderer = heatmapRenderer;
-        this.heatmapView = heatmapView;
         this.openmct = openmct;
         this.latest = { x: 0, y: 0, counts: 0 };
     }
@@ -16,8 +16,8 @@ define([], function () {
                     obj,
                     this.datum.bind(this, property, metadata)
                 ));
-            });
-        });
+            }.bind(this));
+        }.bind(this));
 
         return function () {
             unsubscribes.forEach(function (unsubscribe) {
