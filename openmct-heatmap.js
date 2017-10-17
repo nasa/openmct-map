@@ -42,7 +42,7 @@ define([
                     return d.type === 'view.heatmap';
                 },
                 view: function (domainObject) {
-                    return new HeatmapView(domainObject, openmct);
+                    return new HeatmapView(domainObject, openmct, document);
                 }
             });
         };
