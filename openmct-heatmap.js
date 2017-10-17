@@ -12,7 +12,27 @@ define([
                 cssClass: 'icon-object',
                 creatable: true,
                 initialize: function (obj) {
-                }
+                },
+                form: [
+                    {
+                        key: "x",
+                        name: "X",
+                        control: "textfield",
+                        required: true
+                    },
+                    {
+                        key: "y",
+                        name: "Y",
+                        control: "textfield",
+                        required: true
+                    },
+                    {
+                        key: "counts",
+                        name: "Counts",
+                        control: "textfield",
+                        required: true
+                    }
+                ]
             });
 
             openmct.mainViews.addProvider({
