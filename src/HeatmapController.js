@@ -11,6 +11,8 @@ define([], function () {
 
         ['x', 'y', 'counts'].forEach(function (property) {
             this.openmct.objects.get(domainObject[property]).then(function (obj) {
+                obj = Object.create(obj);
+                obj.domains = obj.ranges = [];
                 var metadata = this.openmct.telemetry.getMetadata(obj);
                 unsubscribes.push(this.openmct.telemetry.subscribe(
                     obj,
