@@ -36,6 +36,11 @@ define([], function () {
             this.table[x][y].total / this.table[x][y].count;
     };
 
+    Heatmap.prototype.at = function (x, y) {
+        var cell = this.table[x] && this.table[x][y];
+        return cell ? cell.average : undefined;
+    };
+
     Heatmap.prototype.bounds = function () {
         if (this.minX > this.maxX || this.minY > this.maxY) {
             return { x: 0, y: 0, width: 0, height: 0 };
