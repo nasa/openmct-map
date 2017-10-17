@@ -29,7 +29,7 @@ define([], function () {
     };
 
     HeatmapController.prototype.datum = function (property, metadata, datum) {
-        var metadataValues = metadata.valuesForHints(["x"]);
+        var metadataValues = metadata.valuesForHints(["range"]);
         if (metadataValues.length > 0) {
             this.latest[property] = datum[metadataValues[0].key];
             if (property === 'counts') {
