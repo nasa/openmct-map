@@ -3,5 +3,13 @@ define([], function () {
 
     }
 
+    HeatmapView.prototype.show = function () {
+
+    };
+
+    HeatmapView.prototype.destroy = function () {
+
+    };
+
     return HeatmapView;
 });
