@@ -1,9 +1,9 @@
 define([], function () {
-    function Heatmap() {
+    function HeatmapModel() {
         this.clear();
     }
 
-    Heatmap.prototype.clear = function () {
+    HeatmapModel.prototype.clear = function () {
         this.minX = Number.MAX_VALUE;
         this.maxX = Number.MIN_VALUE;
 
@@ -13,7 +13,7 @@ define([], function () {
         this.table = [];
     };
 
-    Heatmap.prototype.add = function (x, y, counts) {
+    HeatmapModel.prototype.add = function (x, y, counts) {
         x = Math.floor(x);
         y = Math.floor(y);
 
@@ -36,12 +36,12 @@ define([], function () {
             this.table[x][y].total / this.table[x][y].count;
     };
 
-    Heatmap.prototype.at = function (x, y) {
+    HeatmapModel.prototype.at = function (x, y) {
         var cell = this.table[x] && this.table[x][y];
         return cell ? cell.average : undefined;
     };
 
-    Heatmap.prototype.bounds = function () {
+    HeatmapModel.prototype.bounds = function () {
         if (this.minX > this.maxX || this.minY > this.maxY) {
             return { x: 0, y: 0, width: 0, height: 0 };
         }
@@ -55,5 +55,5 @@ define([], function () {
     };
 
 
-    return Heatmap;
+    return HeatmapModel;
 });

@@ -1,6 +1,5 @@
-define(['./Heatmap'], function (Heatmap) {
+define([], function () {
     function HeatmapView(domainObject, openmct) {
-        this.heatmap = new Heatmap();
     }
 
     HeatmapView.prototype.show = function () {
