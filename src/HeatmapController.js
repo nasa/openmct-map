@@ -11,20 +11,20 @@ define([], function () {
 
     HeatmapController.prototype.observe = function (domainObject) {
         var unsubscribes = [];
-        var requests = {};
+        var requests = [];
 
         ['x', 'y', 'counts'].forEach(function (property) {
-            this.openmct.objects.get(domainObject[property]).then(function (obj) {
+            requests.push(this.openmct.objects.get(domainObject[property]).then(function (obj) {
                 this.metadata[property] = this.openmct.telemetry.getMetadata(obj);
                 unsubscribes.push(this.openmct.telemetry.subscribe(
                     obj,
                     this.datum.bind(this, property)
                 ));
-                requests[property] = this.openmct.telemetry.request(
+                return this.openmct.telemetry.request(
                     obj,
                     this.openmct.time.bounds()
                 );
-            }.bind(this));
+            }.bind(this)));
         }.bind(this));
 
         Promise.all(requests).then(this.handleResponses.bind(this));
@@ -58,6 +58,8 @@ define([], function () {
     };
 
     HeatmapController.prototype.handleResponses = function (responses) {
+        responses = { x: responses[0], y: responses[1], counts: responses[2] };
+
         var index = { x: 0, y: 0, counts: 0 };
         var domain = this.openmct.time.timeSystem().key;
 
