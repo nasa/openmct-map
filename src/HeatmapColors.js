@@ -14,8 +14,6 @@ define([], function () {
         var g = 1 - 2 * Math.abs(v - 0.5);
         var b = Math.max(0.5 - v, 0) * 2;
 
-        console.log(r, g, b, v);
-
         return "rgb(" + [r, g, b].map(function (c) {
             return Math.min(Math.max(Math.floor(c * 255), 0), 255);
         }).join(',') + ")";
