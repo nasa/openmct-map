@@ -11,17 +11,25 @@ define([], function () {
         this.unsubscribes = [];
 
         this.refresh = this.refresh.bind(this);
+        this.bounds = this.bounds.bind(this);
 
-        this.openmct.time.on('bounds', this.refresh);
+        this.openmct.time.on('bounds', this.bounds);
         this.openmct.time.on('timeSystem', this.refresh);
 
         this.refresh();
     }
 
+    HeatmapController.prototype.bounds = function (bounds, wasTick) {
+        if (!wasTick) {
+            this.refresh();
+        }
+    };
+
     HeatmapController.prototype.refresh = function () {
         var domainObject = this.domainObject;
         var requests = [];
 
+        this.heatmapModel.clear();
         this.unsubscribes.forEach(function (unsubscribe) {
             unsubscribe();
         });
