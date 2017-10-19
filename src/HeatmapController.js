@@ -38,9 +38,19 @@ define([], function () {
                     this.latest.y,
                     this.latest.counts
                 );
-
-                this.heatmapRenderer.render(this.heatmapModel);
+                this.scheduleRendering();
             }
+        }
+    };
+
+    HeatmapController.prototype.scheduleRendering = function () {
+        if (!this.renderScheduled) {
+            this.renderScheduled = true;
+
+            window.requestAnimationFrame(function () {
+                this.renderScheduled = false;
+                this.heatmapRenderer.render(this.heatmapModel);
+            }.bind(this));
         }
     };
 
