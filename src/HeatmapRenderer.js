@@ -14,10 +14,13 @@ define([], function () {
         var xSize = this.canvas.width / width;
         var ySize = this.canvas.height / height;
 
+        this.context.strokeStyle = '1px #A8A8A8 solid';
+
         for (x = 0; x < width; x += 1) {
             for (y = 0; y < height; y += 1) {
                 this.context.fillStyle = this.colors.color(heatmapModel.at(x, y));
                 this.context.fillRect(x * xSize, y * ySize, xSize, ySize);
+                this.context.strokeRect(x * xSize, y * ySize, xSize, ySize);
             }
         }
     };
