@@ -31,6 +31,18 @@ define([
                         name: "Counts",
                         control: "textfield",
                         required: true
+                    },
+                    {
+                        key: "low",
+                        name: "Low value",
+                        control: "textfield",
+                        required: true
+                    },
+                    {
+                        key: "high",
+                        name: "High value",
+                        control: "textfield",
+                        required: true
                     }
                 ]
             });
