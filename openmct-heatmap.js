@@ -43,6 +43,12 @@ define([
                         name: "High value",
                         control: "textfield",
                         required: true
+                    },
+                    {
+                        key: "gridSize",
+                        name: "Grid size",
+                        control: "textfield",
+                        required: true
                     }
                 ]
             });

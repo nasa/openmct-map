@@ -19,7 +19,7 @@ define([
         var canvas = this.document.createElement('canvas');
         var colors = new HeatmapColors(+this.domainObject.low, +this.domainObject.high);
         var renderer = new HeatmapRenderer(canvas, colors);
-        var model = new HeatmapModel();
+        var model = new HeatmapModel(this.domainObject.gridSize);
         this.controller = new HeatmapController(model, renderer, this.domainObject, this.openmct);
 
         canvas.width = canvas.height = 1000;

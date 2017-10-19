@@ -1,5 +1,6 @@
 define([], function () {
-    function HeatmapModel() {
+    function HeatmapModel(gridSize) {
+        this.gridSize = gridSize;
         this.clear();
     }
 
@@ -14,8 +15,8 @@ define([], function () {
     };
 
     HeatmapModel.prototype.add = function (x, y, counts) {
-        x = Math.floor(x);
-        y = Math.floor(y);
+        x = Math.floor(x / this.gridSize);
+        y = Math.floor(y / this.gridSize);
 
         this.minX = Math.min(x, this.minX);
         this.minY = Math.min(y, this.minY);
