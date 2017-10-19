@@ -8,24 +8,30 @@ define([], function () {
         this.metadata = {};
         this.requesting = false;
         this.domainObject = domainObject;
+        this.unsubscribes = [];
 
         this.refresh = this.refresh.bind(this);
 
         this.openmct.time.on('bounds', this.refresh);
         this.openmct.time.on('timeSystem', this.refresh);
+
+        this.refresh();
     }
 
     HeatmapController.prototype.refresh = function () {
         var domainObject = this.domainObject;
-        var unsubscribes = [];
         var requests = [];
 
+        this.unsubscribes.forEach(function (unsubscribe) {
+            unsubscribe();
+        });
+        this.unsubscribes = [];
         this.requesting = true;
 
         ['x', 'y', 'counts'].forEach(function (property) {
             requests.push(this.openmct.objects.get(domainObject[property]).then(function (obj) {
                 this.metadata[property] = this.openmct.telemetry.getMetadata(obj);
-                unsubscribes.push(this.openmct.telemetry.subscribe(
+                this.unsubscribes.push(this.openmct.telemetry.subscribe(
                     obj,
                     this.datum.bind(this, property)
                 ));
@@ -37,12 +43,6 @@ define([], function () {
         }.bind(this));
 
         Promise.all(requests).then(this.handleResponses.bind(this));
-
-        return function () {
-            unsubscribes.forEach(function (unsubscribe) {
-                unsubscribe();
-            });
-        };
     };
 
     HeatmapController.prototype.datum = function (property, datum) {
@@ -113,6 +113,15 @@ define([], function () {
                 this.heatmapRenderer.render(this.heatmapModel);
             }.bind(this));
         }
+    };
+
+    HeatmapController.prototype.destroy = function () {
+        this.openmct.time.off('bounds', this.refresh);
+        this.openmct.time.off('timeSystem', this.refresh);
+        this.unsubscribes.forEach(function (unsubscribe) {
+            unsubscribe();
+        });
+        this.unsubscribes = [];
     };
 
     return HeatmapController;
