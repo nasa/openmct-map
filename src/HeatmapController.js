@@ -1,5 +1,5 @@
 define([], function () {
-    function HeatmapController(heatmapModel, heatmapRenderer, openmct) {
+    function HeatmapController(heatmapModel, heatmapRenderer, domainObject, openmct) {
         this.heatmapModel = heatmapModel;
         this.heatmapRenderer = heatmapRenderer;
         this.openmct = openmct;
@@ -7,11 +7,20 @@ define([], function () {
         this.queues = { x: [], y: [], counts: [] };
         this.metadata = {};
         this.requesting = false;
+        this.domainObject = domainObject;
+
+        this.refresh = this.refresh.bind(this);
+
+        this.openmct.time.on('bounds', this.refresh);
+        this.openmct.time.on('timeSystem', this.refresh);
     }
 
-    HeatmapController.prototype.observe = function (domainObject) {
+    HeatmapController.prototype.refresh = function () {
+        var domainObject = this.domainObject;
         var unsubscribes = [];
         var requests = [];
+
+        this.requesting = true;
 
         ['x', 'y', 'counts'].forEach(function (property) {
             requests.push(this.openmct.objects.get(domainObject[property]).then(function (obj) {
