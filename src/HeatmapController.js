@@ -4,20 +4,30 @@ define([], function () {
         this.heatmapRenderer = heatmapRenderer;
         this.openmct = openmct;
         this.latest = { x: 0, y: 0, counts: 0 };
+        this.queues = { x: [], y: [], counts: [] };
+        this.metadata = {};
+        this.requesting = false;
     }
 
     HeatmapController.prototype.observe = function (domainObject) {
         var unsubscribes = [];
+        var requests = {};
 
         ['x', 'y', 'counts'].forEach(function (property) {
             this.openmct.objects.get(domainObject[property]).then(function (obj) {
-                var metadata = this.openmct.telemetry.getMetadata(obj);
+                this.metadata[property] = this.openmct.telemetry.getMetadata(obj);
                 unsubscribes.push(this.openmct.telemetry.subscribe(
                     obj,
-                    this.datum.bind(this, property, metadata)
+                    this.datum.bind(this, property)
                 ));
+                requests[property] = this.openmct.telemetry.request(
+                    obj,
+                    this.openmct.time.bounds()
+                );
             }.bind(this));
         }.bind(this));
+
+        Promise.all(requests).then(this.handleResponses.bind(this));
 
         return function () {
             unsubscribes.forEach(function (unsubscribe) {
@@ -26,7 +36,13 @@ define([], function () {
         };
     };
 
-    HeatmapController.prototype.datum = function (property, metadata, datum) {
+    HeatmapController.prototype.datum = function (property, datum) {
+        if (this.requesting) {
+            this.queues[property].push(datum);
+            return;
+        }
+
+        var metadata = this.metadata[property];
         var metadataValues = metadata.valuesForHints(["range"]);
         if (metadataValues.length > 0) {
             this.latest[property] = datum[metadataValues[0].key];
@@ -39,6 +55,42 @@ define([], function () {
                 this.scheduleRendering();
             }
         }
+    };
+
+    HeatmapController.prototype.handleResponses = function (responses) {
+        var index = { x: 0, y: 0, counts: 0 };
+        var domain = this.openmct.time.timeSystem().key;
+
+        while (index.counts < responses.counts.length) {
+            var counts = responses.counts[index.counts];
+
+            while (index.x < responses.x.length && responses.x[index.x][domain] < counts[domain]) {
+                index.x += 1;
+            }
+
+            while (index.y < responses.y.length && responses.y[index.y][domain] < counts[domain]) {
+                index.y += 1;
+            }
+
+            if (index.x < responses.x.length && index.y < responses.y.length) {
+                ['x', 'y', 'counts'].forEach(function (property) {
+                    this.datum(property, responses[property][index[property]]);
+                }.bind(this));
+            }
+
+            index.counts += 1;
+        }
+
+        this.flush();
+    };
+
+    HeatmapController.prototype.flush = function () {
+        Object.keys(this.queues).forEach(function (property) {
+            this.queues[property].forEach(this.datum.bind(this, property));
+        }.bind(this));
+
+        this.requesting = false;
+        this.queues = { x: [], y: [], counts: [] };
     };
 
     HeatmapController.prototype.scheduleRendering = function () {
