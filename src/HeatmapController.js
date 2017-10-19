@@ -79,6 +79,9 @@ define([], function () {
 
         var index = { x: 0, y: 0, counts: 0 };
         var domain = this.openmct.time.timeSystem().key;
+        var recordDatum = function (property) {
+            this.datum(property, responses[property][index[property]]);
+        }.bind(this);
 
         while (index.counts < responses.counts.length) {
             var counts = responses.counts[index.counts];
@@ -92,9 +95,7 @@ define([], function () {
             }
 
             if (index.x < responses.x.length && index.y < responses.y.length) {
-                ['x', 'y', 'counts'].forEach(function (property) {
-                    this.datum(property, responses[property][index[property]]);
-                }.bind(this));
+                ['x', 'y', 'counts'].forEach(recordDatum);
             }
 
             index.counts += 1;
