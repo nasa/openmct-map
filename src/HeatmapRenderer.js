@@ -12,6 +12,7 @@ define([], function () {
         var xSize = this.canvas.width / width;
         var ySize = this.canvas.height / height;
 
+        this.context.lineWidth = 1.5;
         this.context.strokeStyle = '#484848';
         for (x = 0; x < width; x += 1) {
             for (y = 0; y < height; y += 1) {
@@ -21,6 +22,7 @@ define([], function () {
             }
         }
 
+        this.context.lineWidth = 3.0;
         this.context.strokeStyle = '#FFFFFF';
         this.context.beginPath();
         heatmapModel.points().forEach(function (point, index) {
