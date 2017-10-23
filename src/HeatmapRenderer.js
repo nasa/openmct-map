@@ -11,30 +11,46 @@ define([], function () {
         var height = bounds.height + 2;
         var xSize = this.canvas.width / width;
         var ySize = this.canvas.height / height;
+        var points = heatmapModel.points();
 
         this.context.lineWidth = 1.5;
         this.context.strokeStyle = '#484848';
         for (x = 0; x < width; x += 1) {
             for (y = 0; y < height; y += 1) {
-                this.context.fillStyle = this.colors.color(heatmapModel.at(x + bounds.x, y + bounds.y));
+                this.context.fillStyle =
+                    this.colors.color(heatmapModel.at(x + bounds.x, y + bounds.y));
                 this.context.fillRect(x * xSize, y * ySize, xSize, ySize);
                 this.context.strokeRect(x * xSize, y * ySize, xSize, ySize);
             }
         }
 
-        this.context.lineWidth = 3.0;
-        this.context.strokeStyle = '#FFFFFF';
-        this.context.beginPath();
-        heatmapModel.points().forEach(function (point, index) {
-            var x = (point.x - bounds.x) * xSize;
-            var y = (point.y - bounds.y) * ySize;
-            if (index === 0) {
-                this.context.moveTo(x, y);
-            } else {
-                this.context.lineTo(x, y);
-            }
-        }.bind(this));
-        this.context.stroke();
+        if (points.length > 0) {
+            this.context.lineWidth = 3.0;
+            this.context.strokeStyle = '#FFFFFF';
+            this.context.beginPath();
+            this.context.moveTo(
+                (points[0].x - bounds.x) * xSize,
+                (points[0].y - bounds.y) * ySize
+            );
+            points.forEach(function (point, index) {
+                this.context.lineTo(
+                    (point.x - bounds.x) * xSize,
+                    (point.y - bounds.y) * ySize
+                );
+            }.bind(this));
+            this.context.stroke();
+
+            this.context.fillStyle = '#FFFFFF';
+            this.context.beginPath();
+            this.context.arc(
+                (points[points.length - 1].x - bounds.x) * xSize,
+                (points[points.length - 1].y - bounds.y) * ySize,
+                9.0,
+                0,
+                Math.PI * 2
+            );
+            this.context.fill();
+        }
     };
 
     return HeatmapRenderer;
