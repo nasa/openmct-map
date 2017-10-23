@@ -7,8 +7,8 @@ define([], function () {
 
     HeatmapRenderer.prototype.render = function (heatmapModel) {
         var bounds = heatmapModel.bounds();
-        var width = bounds.width + 2;
-        var height = bounds.height + 2;
+        var width = bounds.width + 3;
+        var height = bounds.height + 3;
         var xSize = this.canvas.width / width;
         var ySize = this.canvas.height / height;
         var points = heatmapModel.points();
@@ -18,7 +18,7 @@ define([], function () {
         for (x = 0; x < width; x += 1) {
             for (y = 0; y < height; y += 1) {
                 this.context.fillStyle =
-                    this.colors.color(heatmapModel.at(x + bounds.x, y + bounds.y));
+                    this.colors.color(heatmapModel.at(x + bounds.x - 1, y + bounds.y - 1));
                 this.context.fillRect(x * xSize, y * ySize, xSize, ySize);
                 this.context.strokeRect(x * xSize, y * ySize, xSize, ySize);
             }
@@ -29,13 +29,13 @@ define([], function () {
             this.context.strokeStyle = '#FFFFFF';
             this.context.beginPath();
             this.context.moveTo(
-                (points[0].x - bounds.x) * xSize,
-                (points[0].y - bounds.y) * ySize
+                (points[0].x - bounds.x + 1) * xSize,
+                (points[0].y - bounds.y + 1) * ySize
             );
             points.forEach(function (point, index) {
                 this.context.lineTo(
-                    (point.x - bounds.x) * xSize,
-                    (point.y - bounds.y) * ySize
+                    (point.x - bounds.x + 1) * xSize,
+                    (point.y - bounds.y + 1) * ySize
                 );
             }.bind(this));
             this.context.stroke();
@@ -43,8 +43,8 @@ define([], function () {
             this.context.fillStyle = '#FFFFFF';
             this.context.beginPath();
             this.context.arc(
-                (points[points.length - 1].x - bounds.x) * xSize,
-                (points[points.length - 1].y - bounds.y) * ySize,
+                (points[points.length - 1].x - bounds.x + 1) * xSize,
+                (points[points.length - 1].y - bounds.y + 1) * ySize,
                 9.0,
                 0,
                 Math.PI * 2
