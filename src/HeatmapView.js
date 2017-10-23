@@ -2,12 +2,16 @@ define([
     './HeatmapColors',
     './HeatmapController',
     './HeatmapModel',
-    './HeatmapRenderer'
+    './HeatmapRenderer',
+    'text!./heatmap.html',
+    'vue'
 ], function (
     HeatmapColors,
     HeatmapController,
     HeatmapModel,
-    HeatmapRenderer
+    HeatmapRenderer,
+    heatmapTemplate,
+    Vue
 ) {
     function HeatmapView(domainObject, openmct, document) {
         this.domainObject = domainObject;
@@ -16,14 +20,43 @@ define([
     }
 
     HeatmapView.prototype.show = function (container) {
-        var canvas = this.document.createElement('canvas');
-        var colors = new HeatmapColors(+this.domainObject.low, +this.domainObject.high);
-        var renderer = new HeatmapRenderer(canvas, colors);
-        var model = new HeatmapModel(this.domainObject.gridSize);
-        this.controller = new HeatmapController(model, renderer, this.domainObject, this.openmct);
+        var self = this;
+        var data = {
+            xTicks: [],
+            yTicks: [],
+            legendTicks: [],
+            xTickStyle: "",
+            yTickStyle: "",
+            legendTickStyle: "",
+            low: this.domainObject.low,
+            high: this.domainObject.high
+        };
+        var vue = new Vue({
+            el: container,
+            template: heatmapTemplate,
+            data: data,
+            mounted: function () {
+                this.$nextTick(function () {
+                    var canvas = Array.prototype.find.call(vue.$el.childNodes, function (node) {
+                        return node.className === 'heatmap-grid';
+                    });
+                    var colors = new HeatmapColors(+self.domainObject.low, +self.domainObject.high);
+                    var renderer = new HeatmapRenderer(canvas, colors);
+                    var model = new HeatmapModel(self.domainObject.gridSize);
 
-        canvas.width = canvas.height = 1000;
-        container.appendChild(canvas);
+                    self.controller = new HeatmapController(
+                        data,
+                        model,
+                        renderer,
+                        self.domainObject,
+                        self.openmct
+                    );
+
+                    canvas.width = canvas.height = 1000;
+
+                });
+            }
+        });
     };
 
     HeatmapView.prototype.destroy = function () {

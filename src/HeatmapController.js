@@ -1,5 +1,6 @@
 define([], function () {
-    function HeatmapController(heatmapModel, heatmapRenderer, domainObject, openmct) {
+    function HeatmapController(data, heatmapModel, heatmapRenderer, domainObject, openmct) {
+        this.data = data;
         this.heatmapModel = heatmapModel;
         this.heatmapRenderer = heatmapRenderer;
         this.openmct = openmct;
