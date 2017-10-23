@@ -1,0 +1,20 @@
+<div class="heatmap">
+    <div class="heatmap-ticks-y">
+        <div v-for="tick in yTicks" v-bind:style="yTickStyle">
+            {{tick}}
+        </div>
+    </div>
+    <canvas class="heatmap-grid"></canvas>
+    <div class="heatmap-ticks-x">
+        <div v-for="tick in xTicks" v-bind:style="xTickStyle">
+            {{tick}}
+        </div>
+    </div>
+    <canvas class="heatmap-legend"></canvas>
+    <div class="heatmap-legend-ticks">
+        <div v-for="tick in legendTicks" v-bind:style="legendTickStyle">
+            {{tick}}
+        </div>
+    </div>
+</div>
+
