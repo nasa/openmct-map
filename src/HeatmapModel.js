@@ -16,6 +16,8 @@ define([], function () {
     };
 
     HeatmapModel.prototype.add = function (x, y, counts) {
+        this.list.push({ x: x / this.gridSize, y: y / this.gridSize });
+
         x = Math.floor(x / this.gridSize);
         y = Math.floor(y / this.gridSize);
 
@@ -36,8 +38,6 @@ define([], function () {
         this.table[x][y].count += 1;
         this.table[x][y].average =
             this.table[x][y].total / this.table[x][y].count;
-
-        this.list.push({ x: x, y: y, counts: counts });
     };
 
     HeatmapModel.prototype.at = function (x, y) {

@@ -9,20 +9,30 @@ define([], function () {
         var bounds = heatmapModel.bounds();
         var width = bounds.width + 2;
         var height = bounds.height + 2;
-        var x = bounds.x - 1;
-        var y = bounds.y - 1;
         var xSize = this.canvas.width / width;
         var ySize = this.canvas.height / height;
 
-        this.context.strokeStyle = '1px #A8A8A8 solid';
-
+        this.context.strokeStyle = '#484848';
         for (x = 0; x < width; x += 1) {
             for (y = 0; y < height; y += 1) {
-                this.context.fillStyle = this.colors.color(heatmapModel.at(x, y));
+                this.context.fillStyle = this.colors.color(heatmapModel.at(x + bounds.x, y + bounds.y));
                 this.context.fillRect(x * xSize, y * ySize, xSize, ySize);
                 this.context.strokeRect(x * xSize, y * ySize, xSize, ySize);
             }
         }
+
+        this.context.strokeStyle = '#FFFFFF';
+        this.context.beginPath();
+        heatmapModel.points().forEach(function (point, index) {
+            var x = (point.x - bounds.x) * xSize;
+            var y = (point.y - bounds.y) * ySize;
+            if (index === 0) {
+                this.context.moveTo(x, y);
+            } else {
+                this.context.lineTo(x, y);
+            }
+        }.bind(this));
+        this.context.stroke();
     };
 
     return HeatmapRenderer;
