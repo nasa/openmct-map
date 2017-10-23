@@ -2,7 +2,6 @@ define([], function () {
     function HeatmapModel(gridSize) {
         this.gridSize = gridSize;
         this.clear();
-        this.list = [];
     }
 
     HeatmapModel.prototype.clear = function () {
@@ -13,6 +12,7 @@ define([], function () {
         this.maxY = Number.MIN_VALUE;
 
         this.table = [];
+        this.list = [];
     };
 
     HeatmapModel.prototype.add = function (x, y, counts) {
