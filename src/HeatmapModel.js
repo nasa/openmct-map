@@ -2,6 +2,7 @@ define([], function () {
     function HeatmapModel(gridSize) {
         this.gridSize = gridSize;
         this.clear();
+        this.list = [];
     }
 
     HeatmapModel.prototype.clear = function () {
@@ -35,11 +36,17 @@ define([], function () {
         this.table[x][y].count += 1;
         this.table[x][y].average =
             this.table[x][y].total / this.table[x][y].count;
+
+        this.list.push({ x: x, y: y, counts: counts });
     };
 
     HeatmapModel.prototype.at = function (x, y) {
         var cell = this.table[x] && this.table[x][y];
         return cell ? cell.average : undefined;
+    };
+
+    HeatmapModel.prototype.points = function () {
+        return this.list;
     };
 
     HeatmapModel.prototype.bounds = function () {
