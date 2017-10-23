@@ -83,6 +83,8 @@ define([], function () {
             this.datum(property, responses[property][index[property]]);
         }.bind(this);
 
+        this.requesting = false;
+
         while (index.counts < responses.counts.length) {
             var counts = responses.counts[index.counts];
 
@@ -109,7 +111,6 @@ define([], function () {
             this.queues[property].forEach(this.datum.bind(this, property));
         }.bind(this));
 
-        this.requesting = false;
         this.queues = { x: [], y: [], counts: [] };
     };
 
