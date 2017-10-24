@@ -53,7 +53,7 @@ define([
                 ]
             });
 
-            openmct.mainViews.addProvider({
+            (openmct.mainViews || openmct.objectViews).addProvider({
                 name: 'Heat Map',
                 cssClass: 'icon-object',
                 canView: function (d) {
