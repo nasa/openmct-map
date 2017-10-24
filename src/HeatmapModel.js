@@ -51,14 +51,15 @@ define([], function () {
 
     HeatmapModel.prototype.bounds = function () {
         if (this.minX > this.maxX || this.minY > this.maxY) {
-            return { x: 0, y: 0, width: 0, height: 0 };
+            return { x: 0, y: 0, width: 0, height: 0, size: this.gridSize };
         }
 
         return {
             x: this.minX,
             y: this.minY,
             width: this.maxX - this.minX,
-            height: this.maxY - this.minY
+            height: this.maxY - this.minY,
+            size: this.gridSize
         };
     };
 

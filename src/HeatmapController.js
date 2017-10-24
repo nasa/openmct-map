@@ -1,4 +1,6 @@
 define([], function () {
+    var TICK_STYLE = "display: inline-block; font-size: 10px; color: white; position: relative; text-align: center; padding: 0; margin: 0;";
+
     function HeatmapController(data, heatmapModel, heatmapRenderer, domainObject, openmct) {
         this.data = data;
         this.heatmapModel = heatmapModel;
@@ -121,9 +123,34 @@ define([], function () {
 
             window.requestAnimationFrame(function () {
                 this.renderScheduled = false;
+                this.updateView();
                 this.heatmapRenderer.render(this.heatmapModel);
             }.bind(this));
         }
+    };
+
+    HeatmapController.prototype.updateView = function () {
+        var xTicks = [];
+        var yTicks = [];
+        var bounds = this.heatmapModel.bounds();
+        var x = bounds.x - 1;
+        var y = bounds.y - 1;
+
+        while (xTicks.length <= bounds.width + 2) {
+            xTicks.push(x * bounds.size);
+            x += 1;
+        }
+
+        while (yTicks.length <= bounds.height + 2) {
+            yTicks.push(y * bounds.size);
+            y += 1;
+        }
+
+        this.data.xTicks = xTicks;
+        this.data.yTicks = yTicks;
+
+        this.data.xTickStyle = "height: 40px; width: " + (100 / xTicks.length) + "%; " + TICK_STYLE;
+        this.data.yTickStyle = "width: 60px; height: " + (100 / yTicks.length) + "%; " + TICK_STYLE;
     };
 
     HeatmapController.prototype.destroy = function () {
