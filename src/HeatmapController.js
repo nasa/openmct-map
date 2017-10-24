@@ -1,6 +1,4 @@
 define([], function () {
-    var TICK_STYLE = "display: inline-block; font-size: 10px; color: white; position: relative; text-align: center; padding: 0; margin: 0;";
-
     function HeatmapController(data, heatmapModel, heatmapRenderer, domainObject, openmct) {
         this.data = data;
         this.heatmapModel = heatmapModel;
@@ -148,9 +146,6 @@ define([], function () {
 
         this.data.xTicks = xTicks;
         this.data.yTicks = yTicks;
-
-        this.data.xTickStyle = "height: 40px; width: " + (100 / xTicks.length) + "%; " + TICK_STYLE;
-        this.data.yTickStyle = "width: 60px; height: " + (100 / yTicks.length) + "%; " + TICK_STYLE;
     };
 
     HeatmapController.prototype.destroy = function () {
