@@ -1,18 +1,18 @@
-<div class="heatmap">
-    <div class="heatmap-ticks-y">
+<div class="heatmap abs" style="background: pink;">
+    <canvas class="heatmap-legend" width=40 height=100 style="left: 0; height: 100%; width: 40px; background: gray; position: absolute;"></canvas>
+    <div class="heatmap-legend-ticks" style="left: 40px; height: 100%; width: 60px; background: green; position: absolute;">
+        <div v-for="tick in legendTicks" v-bind:style="legendTickStyle">
+            {{tick}}
+        </div>
+    </div>
+    <div class="heatmap-ticks-y" style="left: 100px; width: 60px; height: calc(100% - 40px); top: 0; position: absolute; background: yellow;">
         <div v-for="tick in yTicks" v-bind:style="yTickStyle">
             {{tick}}
         </div>
     </div>
-    <canvas class="heatmap-grid"></canvas>
-    <div class="heatmap-ticks-x">
+    <canvas class="heatmap-grid" width=1000 height=1000 style="left: 160px; height: calc(100% - 40px); width: calc(80vh - 40px); background: black; position: absolute;"></canvas>
+    <div class="heatmap-ticks-x"  style="left: 160px; bottom: 0px; width: calc(80vh - 40px); position: absolute; height: 40px; background: blue;">
         <div v-for="tick in xTicks" v-bind:style="xTickStyle">
-            {{tick}}
-        </div>
-    </div>
-    <canvas class="heatmap-legend"></canvas>
-    <div class="heatmap-legend-ticks">
-        <div v-for="tick in legendTicks" v-bind:style="legendTickStyle">
             {{tick}}
         </div>
     </div>
