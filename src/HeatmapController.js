@@ -130,7 +130,6 @@ define([], function () {
     HeatmapController.prototype.updateView = function () {
         var xTicks = [];
         var yTicks = [];
-        var legendTicks = [];
         var bounds = this.heatmapModel.bounds();
         var x = bounds.x - 1;
         var y = bounds.y - 1;
