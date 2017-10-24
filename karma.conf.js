@@ -14,6 +14,7 @@ module.exports = function(config) {
         files: [
             'require.conf.js',
             {pattern: 'node_modules/**/text.js', included: false},
+            {pattern: 'node_modules/**/vue.min.js', included: false},
             {pattern: 'src/**/*.js', included: false},
             {pattern: 'src/**/*.html', included: false},
             'test-main.js'
