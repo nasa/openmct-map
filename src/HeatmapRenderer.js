@@ -1,9 +1,21 @@
 define([], function () {
-    function HeatmapRenderer(canvas, colors) {
+    function HeatmapRenderer(canvas, legend, colors) {
         this.canvas = canvas;
         this.context = canvas.getContext('2d');
         this.colors = colors;
+        this.renderLegend(legend);
+
     }
+
+    HeatmapRenderer.prototype.renderLegend = function (legend) {
+        var legendContext = legend.getContext('2d');
+
+        for (var y = 0; y < legend.height; y += 1) {
+            legendContext.fillStyle =
+                this.colors.colorForIntensity(1.0 - y / legend.height);
+            legendContext.fillRect(0, y, legend.width, 2);
+        }
+    };
 
     HeatmapRenderer.prototype.render = function (heatmapModel) {
         var bounds = heatmapModel.bounds();

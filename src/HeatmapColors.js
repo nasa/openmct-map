@@ -10,6 +10,10 @@ define([], function () {
         }
 
         var v = (value - this.minimum) / this.maximum;
+        return this.colorForIntensity(v);
+    };
+
+    HeatmapColors.prototype.colorForIntensity = function (v) {
         var r = (Math.max(v - 0.5, 0) * 2);
         var g = 1 - 2 * Math.abs(v - 0.5);
         var b = Math.max(0.5 - v, 0) * 2;
