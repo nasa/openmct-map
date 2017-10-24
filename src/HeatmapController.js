@@ -130,22 +130,26 @@ define([], function () {
     HeatmapController.prototype.updateView = function () {
         var xTicks = [];
         var yTicks = [];
+        var legendTicks = [];
         var bounds = this.heatmapModel.bounds();
         var x = bounds.x - 1;
         var y = bounds.y - 1;
+        var min = +this.domainObject.low;
+        var max = +this.domainObject.high;
 
         while (xTicks.length <= bounds.width + 2) {
             xTicks.push(x * bounds.size);
             x += 1;
         }
 
-        while (yTicks.length <= bounds.height + 2) {
+        while (yTicks.length <= bounds.width + 2) {
             yTicks.push(y * bounds.size);
             y += 1;
         }
 
         this.data.xTicks = xTicks;
         this.data.yTicks = yTicks;
+        this.data.legendTicks = [ max, (max + min) / 2, min ];
     };
 
     HeatmapController.prototype.destroy = function () {

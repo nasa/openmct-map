@@ -1,19 +1,31 @@
 <div class="heatmap abs" style="font-size: 4px; color: white; text-align: center; vertical-align: middle; padding: 0; margin: 0;">
     <canvas class="heatmap-legend" width=40 height=100 style="left: 0; height: 100%; width: 40px; position: absolute;"></canvas>
     <table class="heatmap-legend-ticks" style="left: 40px; height: 100%; width: 60px; position: absolute;">
-        <tr v-for="tick in legendTicks" style="border: none;">
-            <td style="min-height: 0; font-size: 11px; color: white; text-align: center; vertical-align: middle;">{{tick}}</td>
+        <tr style="border: none;">
+            <td style="min-height: 0; font-size: 11px; color: white; text-align: left; vertical-align: top;">
+                {{legendTicks[0]}}
+            </td>
+        </tr>
+        <tr style="border: none;">
+            <td style="min-height: 0; font-size: 11px; color: white; text-align: left; vertical-align: middle;">
+                {{legendTicks[1]}}
+            </td>
+        </tr>
+        <tr style="border: none;">
+            <td style="min-height: 0; font-size: 11px; color: white; text-align: left; vertical-align: bottom;">
+                {{legendTicks[2]}}
+            </td>
         </tr>
     </table>
     <table class="heatmap-ticks-y" style="left: 100px; width: 60px; height: calc(100% - 40px); top: 0; position: absolute;">
         <tr v-for="tick in yTicks" style="border: none;">
-            <td style="min-height: 0; font-size: 11px; color: white; text-align: center; vertical-align: middle;">{{tick}}</td>
+            <td style="min-height: 0; font-size: 11px; color: white; text-align: right; vertical-align: middle;">{{tick}}</td>
         </tr>
     </table>
     <canvas class="heatmap-grid" width=1000 height=1000 style="left: 160px; height: calc(100% - 40px); width: calc(80vh - 40px); position: absolute;"></canvas>
     <table class="heatmap-ticks-x"  style="border: none; left: 160px; bottom: 0px; width: calc(80vh - 40px); position: absolute; height: 40px;">
         <tr style="border: none;">
-            <td v-for="tick in xTicks" style="min-width: 0; font-size: 11px; color: white; text-align: center; vertical-align: middle;">
+            <td v-for="tick in xTicks" style="min-width: 0; font-size: 11px; color: white; text-align: center; vertical-align: top;">
                 {{tick}}
             </td>
         </tr>
