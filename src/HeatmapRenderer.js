@@ -27,8 +27,8 @@ define([], function () {
 
         this.context.lineWidth = 1.5;
         this.context.strokeStyle = '#484848';
-        for (x = 0; x < width; x += 1) {
-            for (y = 0; y < height; y += 1) {
+        for (var x = 0; x < width; x += 1) {
+            for (var y = 0; y < height; y += 1) {
                 this.context.fillStyle =
                     this.colors.color(heatmapModel.at(x + bounds.x - 1, y + bounds.y - 1));
                 this.context.fillRect(x * xSize, y * ySize, xSize, ySize);
