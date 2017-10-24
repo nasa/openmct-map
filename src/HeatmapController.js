@@ -142,7 +142,7 @@ define([], function () {
             x += 1;
         }
 
-        while (yTicks.length <= bounds.width + 2) {
+        while (yTicks.length <= bounds.height + 2) {
             yTicks.push(y * bounds.size);
             y += 1;
         }
