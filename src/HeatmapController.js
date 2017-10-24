@@ -149,7 +149,7 @@ define([], function () {
 
         this.data.xTicks = xTicks;
         this.data.yTicks = yTicks;
-        this.data.legendTicks = [ max, (max + min) / 2, min ];
+        this.data.legendTicks = [max, (max + min) / 2, min];
     };
 
     HeatmapController.prototype.destroy = function () {
