@@ -87,26 +87,30 @@ define([], function () {
         var recordDatum = function (property) {
             this.datum(property, responses[property][index[property]]);
         }.bind(this);
-        var formatters = {};
+        var domainValues = {};
 
         ['x', 'y', 'counts'].forEach(function (property) {
             var m = this.metadata[property].valuesForHints(['domain']).find(function (m) {
                 return m.source === domain || m.key === domain;
             });
-            formatters[property] = this.openmct.telemetry.getValueFormatter(m);
+            var formatter = this.openmct.telemetry.getValueFormatter(m);
+            domainValues[property] = function () {
+                return formatter.parse(formatter.format(responses[property][index[property]]));
+            };
         }.bind(this));
+
+
 
         this.requesting = false;
 
         while (index.counts < responses.counts.length) {
             var counts = responses.counts[index.counts];
-            var countsDomain = formatters.counts.parse(responses.counts[index.counts]);
 
-            while (index.x < responses.x.length && formatters.x.parse(responses.x[index.x]) < countsDomain) {
+            while (index.x < responses.x.length && domainValues.x() < domainValues.counts()) {
                 index.x += 1;
             }
 
-            while (index.y < responses.y.length && formatters.y.parse(responses.y[index.y]) < countsDomain) {
+            while (index.y < responses.y.length && domainValues.y() < domainValues.counts()) {
                 index.y += 1;
             }
 
