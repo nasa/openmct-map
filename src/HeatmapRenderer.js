@@ -19,8 +19,8 @@ define([], function () {
 
     HeatmapRenderer.prototype.render = function (heatmapModel) {
         var bounds = heatmapModel.bounds();
-        var width = bounds.width + 3;
-        var height = bounds.height + 3;
+        var width = Math.max(bounds.width, bounds.height) + 3;
+        var height = width;
         var xSize = this.canvas.width / width;
         var ySize = this.canvas.height / height;
         var points = heatmapModel.points();
