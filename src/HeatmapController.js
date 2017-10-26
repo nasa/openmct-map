@@ -4,7 +4,7 @@ define([], function () {
         this.heatmapModel = heatmapModel;
         this.heatmapRenderer = heatmapRenderer;
         this.openmct = openmct;
-        this.latest = { x: 0, y: 0, counts: 0 };
+        this.latest = {};
         this.queues = { x: [], y: [], counts: [] };
         this.metadata = {};
         this.requesting = false;
@@ -67,13 +67,14 @@ define([], function () {
         var metadataValues = metadata.valuesForHints(["range"]);
         if (metadataValues.length > 0) {
             this.latest[property] = datum[metadataValues[0].key];
-            if (property === 'counts') {
+            if (Object.keys(this.latest).length === 3) {
                 this.heatmapModel.add(
                     this.latest.x,
                     this.latest.y,
                     this.latest.counts
                 );
                 this.scheduleRendering();
+                this.latest = {};
             }
         }
     };
