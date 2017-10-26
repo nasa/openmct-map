@@ -5,7 +5,7 @@ define([], function () {
         this.heatmapRenderer = heatmapRenderer;
         this.openmct = openmct;
         this.latest = {};
-        this.queues = { x: [], y: [], counts: [] };
+        this.queue = [];
         this.metadata = {};
         this.requesting = false;
         this.domainObject = domainObject;
@@ -59,7 +59,7 @@ define([], function () {
 
     HeatmapController.prototype.datum = function (property, datum) {
         if (this.requesting) {
-            this.queues[property].push(datum);
+            this.queue.push({ property: property, datum: datum });
             return;
         }
 
@@ -112,11 +112,10 @@ define([], function () {
     };
 
     HeatmapController.prototype.flush = function () {
-        Object.keys(this.queues).forEach(function (property) {
-            this.queues[property].forEach(this.datum.bind(this, property));
-        }.bind(this));
-
-        this.queues = { x: [], y: [], counts: [] };
+        this.queue.forEach(function (item) {
+            this.datum(item.property, item.datum);
+        }, this);
+        this.queue = [];
     };
 
     HeatmapController.prototype.scheduleRendering = function () {
