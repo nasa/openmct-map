@@ -74,7 +74,7 @@ define([], function () {
                     this.latest.counts
                 );
                 this.scheduleRendering();
-                this.latest = { x: latest.x, y: latest.y };
+                this.latest = { x: this.latest.x, y: this.latest.y };
             }
         }
     };
