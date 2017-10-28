@@ -6,7 +6,7 @@ define([], function () {
 
     HeatmapColors.prototype.color = function (value) {
         if (value === undefined) {
-            return "rgb(127,127,127)";
+            return "rgb(33,33,33)";
         }
 
         var v = (value - this.minimum) / this.maximum;

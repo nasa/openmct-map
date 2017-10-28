@@ -1,34 +1,25 @@
-<div class="heatmap abs" style="font-size: 4px; color: white; text-align: center; vertical-align: middle; padding: 0; margin: 0;">
-    <canvas class="heatmap-legend" width=30 height=100 style="left: 0; height: 100%; width: 30px; position: absolute;"></canvas>
-    <table class="heatmap-legend-ticks" style="table-layout: fixed; left: 30px; height: 100%; width: 40px; position: absolute;">
-        <tr style="border: none;">
-            <td style="min-height: 0; font-size: 11px; color: white; text-align: left; vertical-align: top; overflow-wrap: normal;">
-                {{legendTicks[0]}}
-            </td>
-        </tr>
-        <tr style="border: none;">
-            <td style="min-height: 0; font-size: 11px; color: white; text-align: left; vertical-align: middle; overflow-wrap: normal;">
-                {{legendTicks[1]}}
-            </td>
-        </tr>
-        <tr style="border: none;">
-            <td style="min-height: 0; font-size: 11px; color: white; text-align: left; vertical-align: bottom; overflow-wrap: normal;">
-                {{legendTicks[2]}}
-            </td>
-        </tr>
-    </table>
-    <table class="heatmap-ticks-y" style="table-layout: fixed; left: 70px; width: 40px; height: calc(100% - 40px); top: 0; position: absolute;">
-        <tr v-for="tick in yTicks" style="border: none;">
-            <td style="min-height: 0; font-size: 11px; color: white; text-align: right; vertical-align: middle; overflow-wrap: normal;">{{tick}}</td>
-        </tr>
-    </table>
-    <canvas class="heatmap-grid" width=1000 height=1000 style="left: 110px; height: calc(100% - 40px); width: calc(80vh - 40px); position: absolute;"></canvas>
-    <table class="heatmap-ticks-x"  style="table-layout: fixed; border: none; left: 110px; bottom: 0px; width: calc(80vh - 40px); position: absolute; height: 40px;">
-        <tr style="border: none;">
-            <td v-for="tick in xTicks" style="min-width: 0; font-size: 11px; color: white; text-align: center; vertical-align: top; overflow-wrap: normal;">
-                {{tick}}
-            </td>
-        </tr>
-    </table>
+<div class="l-heatmap abs l-flex-row">
+    <div class="h-heatmap-legend holder flex-elem l-flex-row">
+        <canvas ref="heatmap_legend" class="heatmap-legend flex-elem"></canvas>
+        <div class="h-heatmap-legend-ticks flex-elem l-flex-col">
+            <div class="s-tick-label flex-elem">{{legendTicks[0]}}</div>
+            <div class="s-tick-label flex-elem">{{legendTicks[1]}}</div>
+            <div class="s-tick-label flex-elem">{{legendTicks[2]}}</div>
+        </div>
+    </div>
+    <div class="h-heatmap-grid-outer holder flex-elem l-flex-row">
+        <div class="h-heatmap-grid-and-ticks">
+            <div class="l-heatmap-ticks-y">
+                <div v-for="tick in yTicks" class="s-tick-label">{{tick}}
+                    <!--<span class="s-tick-val">{{tick}}</span>-->
+                </div>
+            </div>
+            <canvas ref="heatmap_grid" class="heatmap-grid"></canvas>
+            <div class="l-heatmap-ticks-x">
+                <div v-for="tick in xTicks" class="s-tick-label">{{tick}}
+                    <!--<span class="s-tick-val">{{tick}}</span>-->
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-

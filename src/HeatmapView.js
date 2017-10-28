@@ -37,12 +37,8 @@ define([
             data: data,
             mounted: function () {
                 this.$nextTick(function () {
-                    var canvas = Array.prototype.find.call(vue.$el.childNodes, function (node) {
-                        return node.className === 'heatmap-grid';
-                    });
-                    var legend = Array.prototype.find.call(vue.$el.childNodes, function (node) {
-                        return node.className === 'heatmap-legend';
-                    });
+                    var canvas = vue.$refs.heatmap_grid;
+                    var legend = vue.$refs.heatmap_legend;
                     var colors = new HeatmapColors(+self.domainObject.low, +self.domainObject.high);
                     var renderer = new HeatmapRenderer(canvas, legend, colors);
                     var model = new HeatmapModel(self.domainObject.gridSize);
@@ -55,7 +51,7 @@ define([
                         self.openmct
                     );
 
-                    canvas.width = canvas.height = 1000;
+                    canvas.width = canvas.height = 1000; // Todo: change this to use .innerHeight/width of container
                 });
             }
         });
