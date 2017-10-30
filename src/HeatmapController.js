@@ -147,13 +147,15 @@ define([], function () {
         var y = bounds.y - 1;
         var min = +this.domainObject.low;
         var max = +this.domainObject.high;
+        var sz = Math.max(bounds.width, bounds.height) + 3;
 
-        while (xTicks.length <= bounds.width + 2) {
+
+        while (xTicks.length < sz) {
             xTicks.push(x * bounds.size);
             x += 1;
         }
 
-        while (yTicks.length <= bounds.height + 2) {
+        while (yTicks.length < sz) {
             yTicks.push(y * bounds.size);
             y += 1;
         }
