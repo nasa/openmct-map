@@ -55,6 +55,7 @@ define([
 
             (openmct.mainViews || openmct.objectViews).addProvider({
                 name: 'Heat Map',
+                key: 'heatmap',
                 cssClass: 'icon-object',
                 canView: function (d) {
                     return d.type === 'view.heatmap';
