@@ -9,7 +9,7 @@ define([], function () {
             return "rgb(33,33,33)";
         }
 
-        var v = (value - this.minimum) / this.maximum;
+        var v = (value - this.minimum) / (this.maximum - this.minimum);
         return this.colorForIntensity(v);
     };
 
