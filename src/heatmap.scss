@@ -5,6 +5,9 @@ $interiorMarginLg: 20px;
 /********************************************* HEATMAPS */
 .l-heatmap {
     right: $interiorMargin; // Fend off from the scrollbar
+    background: pink;
+    width: 100%;
+    height: 100%;
 }
 
 .h-heatmap-legend {
