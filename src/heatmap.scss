@@ -4,6 +4,7 @@ $interiorMarginLg: 20px;
 
 /********************************************* HEATMAPS */
 .l-heatmap {
+    font-size: 0.7rem;
     right: $interiorMargin; // Fend off from the scrollbar
 }
 
@@ -50,8 +51,14 @@ $interiorMarginLg: 20px;
             z-index: 2;
         }
 
+        .l-heatmap-ticks-x,
+        .l-heatmap-ticks-y {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
         .l-heatmap-ticks-x {
-            @extend .l-flex-row;
+            flex-direction: row;
             bottom: auto;
             top: 100%;
             transform: translateY($interiorMargin);
@@ -61,7 +68,7 @@ $interiorMarginLg: 20px;
         }
 
         .l-heatmap-ticks-y {
-            @extend .l-flex-col;
+            flex-direction: column;
             left: auto;
             right: 100%;
             text-align: right;
