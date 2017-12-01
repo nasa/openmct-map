@@ -49,6 +49,7 @@
     "moment": "^2.19.1",
     "node-bourbon": "^4.2.8",
     "openmct": "git+https://github.com/nasa/openmct.git",
+    "requirejs-style-plugins": "0.0.2",
     "requirejs-text": "^2.0.15",
     "vue": "^2.5.2"
   }

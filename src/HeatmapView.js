@@ -1,17 +1,18 @@
 define([
+    'vue',
     './HeatmapColors',
     './HeatmapController',
     './HeatmapModel',
     './HeatmapRenderer',
     'text!./heatmap.html',
-    'vue'
+    'sass!./heatmap'
 ], function (
+    Vue,
     HeatmapColors,
     HeatmapController,
     HeatmapModel,
     HeatmapRenderer,
-    heatmapTemplate,
-    Vue
+    heatmapTemplate
 ) {
     function HeatmapView(domainObject, openmct, document) {
         this.domainObject = domainObject;
