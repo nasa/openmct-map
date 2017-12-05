@@ -90,16 +90,15 @@ define([], function () {
         var keys = {};
 
         ['x', 'y', 'counts'].forEach(function (property) {
-            var m = this.metadata[property].valuesForHints(['domain']).find(function (m) {
+            var meta = this.metadata[property].valuesForHints(['domain']).find(function (m) {
                 return m.source === domain || m.key === domain;
             });
-            keys[property] = m.source || m.key || domain;
+            keys[property] = meta.source || meta.key || domain;
         }.bind(this));
 
         this.requesting = false;
 
         while (index.counts < responses.counts.length) {
-            var counts = responses.counts[index.counts];
             var countsDomainValue = responses.counts[index.counts][keys.counts];
 
             while (index.x < responses.x.length && responses.x[index.x][keys.x] < countsDomainValue) {
