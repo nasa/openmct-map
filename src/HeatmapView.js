@@ -4,8 +4,8 @@ define([
     './HeatmapController',
     './HeatmapModel',
     './HeatmapRenderer',
-    'text!./heatmap.html',
-    'sass!./heatmap'
+    './heatmap.html',
+    './heatmap.scss'
 ], function (
     Vue,
     HeatmapColors,

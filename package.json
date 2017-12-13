@@ -23,6 +23,7 @@
   "dependencies": {},
   "devDependencies": {
     "almond": "^0.3.3",
+    "css-loader": "^0.28.7",
     "git-rev-sync": "^1.9.1",
     "gulp": "^3.9.1",
     "gulp-jscs": "^4.0.0",
@@ -33,6 +34,7 @@
     "gulp-requirejs-optimize": "^1.2.0",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.1",
+    "html-loader": "^0.5.1",
     "jasmine-core": "^2.8.0",
     "jscs-html-reporter": "^0.2.0",
     "jshint": "^2.9.5",
@@ -48,9 +50,13 @@
     "mkdirp": "^0.5.1",
     "moment": "^2.19.1",
     "node-bourbon": "^4.2.8",
+    "node-sass": "^4.7.2",
     "openmct": "git+https://github.com/nasa/openmct.git",
     "requirejs-style-plugins": "git+https://github.com/VWoeltjen/requirejs-style-plugins.git",
     "requirejs-text": "^2.0.15",
-    "vue": "^2.5.2"
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.19.0",
+    "vue": "^2.5.2",
+    "webpack": "^3.10.0"
   }
 }
