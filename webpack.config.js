@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: './openmct-heatmap',
@@ -48,6 +49,6 @@ module.exports = {
     },
     devtool: "source-map",
     plugins: [
-        new webpack.optimize.UglifyJsPlugin()
+        new UglifyJsPlugin()
     ]
 };
