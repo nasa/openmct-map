@@ -1,5 +1,5 @@
 define([
-    './src/HeatmapView'
+    './HeatmapView'
 ], function (
     HeatmapView
 ) {

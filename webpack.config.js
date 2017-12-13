@@ -3,7 +3,7 @@ var path = require('path');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-    entry: './openmct-heatmap',
+    entry: './src/HeatmapPlugin',
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "openmct-heatmap.js",
