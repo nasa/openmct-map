@@ -11,6 +11,10 @@ $ cd openmct-heatmap
 $ npm install
 ```
 
+A UMD module with associated source maps will be written to the
+`dist` folder. When installed as a global, the plugin will be
+available as `HeatmapPlugin`.
+
 # Usage
 
 See [`index.html`](index.html) for an example of use.
@@ -25,7 +29,13 @@ npm install
 cd ../..
 ```
 
-Once complete, you can serve files directly from the `openmct-heatmap`
-repository. There is an example `index.html` included which provides
+To serve the application, use `webpack-dev-loader`:
+
+```bash
+npm install -g webpack webpack-dev-loader
+webpack-dev-loader
+```
+
+There is an example `index.html` included which provides
 a basic instance of Open MCT with this plugin installed for development
 purposes.
