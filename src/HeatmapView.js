@@ -14,6 +14,8 @@ define([
     HeatmapRenderer,
     heatmapTemplate
 ) {
+    Vue = Vue.default || Vue;
+
     function HeatmapView(domainObject, openmct, document) {
         this.domainObject = domainObject;
         this.openmct = openmct;
