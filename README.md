@@ -3,7 +3,7 @@
 A plugin for [Open MCT](https://nasa.github.io/openmct)
 adding heat map style visualizations of telemetry data.
 
-# Build
+## Build
 
 ```bash
 $ git clone https://github.com/VWoeltjen/openmct-heatmap.git
@@ -15,11 +15,11 @@ A UMD module with associated source maps will be written to the
 `dist` folder. When installed as a global, the plugin will be
 available as `HeatmapPlugin`.
 
-# Usage
+## Usage
 
 See [`index.html`](index.html) for an example of use.
 
-# Developer Environment
+## Developer Environment
 
 Follow build instructions, then trigger a build of `openmct`:
 
