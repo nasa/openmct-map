@@ -49,6 +49,6 @@ module.exports = {
     },
     devtool: "source-map",
     plugins: [
-        new UglifyJsPlugin()
+        new UglifyJsPlugin({ sourceMap: true })
     ]
 };
