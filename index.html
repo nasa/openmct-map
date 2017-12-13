@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title></title>
-    <script src="node_modules/requirejs/require.js"></script>
-    <script src="require.conf.js"></script>
+    <script src="node_modules/openmct/dist/openmct.js"></script>
+    <script src="openmct-heatmap.js"></script>
     <script>
         var THIRTY_MINUTES = 30 * 60 * 1000;
-        require(['openmct', 'openmct-heatmap'], function (openmct, HeatmapPlugin) {
+        document.addEventListener("DOMContentLoaded", function () {
             openmct.install(new HeatmapPlugin());
 
             openmct.install(openmct.plugins.MyItems());
