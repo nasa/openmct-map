@@ -44,5 +44,6 @@ module.exports = {
         alias: {
             vue: "vue/dist/vue.min.js"
         }
-    }
+    },
+    devtool: "source-map"
 };
