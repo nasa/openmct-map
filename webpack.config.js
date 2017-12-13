@@ -1,3 +1,4 @@
+var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
@@ -45,5 +46,8 @@ module.exports = {
             vue: "vue/dist/vue.min.js"
         }
     },
-    devtool: "source-map"
+    devtool: "source-map",
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin()
+    ]
 };
