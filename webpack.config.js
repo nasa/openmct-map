@@ -1,4 +1,3 @@
-var webpack = require('webpack');
 var path = require('path');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
