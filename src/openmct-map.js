@@ -6,7 +6,7 @@ export default function mapPlugin(options) {
             key: 'view.map',
             cssClass: 'icon-object',
             creatable: true,
-            initialize: function (obj)
+            initialize: function (obj) {
                 obj.layers = [];
             },
             form: [
