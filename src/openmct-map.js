@@ -1,9 +1,25 @@
+const MAP_TYPE = 'view.traverse';
+
+class CesiumView {
+    constructor() {
+
+    }
+
+    show(container) {
+        container.innerText = "Hello world";
+    }
+
+    destroy() {
+
+    }
+}
+
 export default function mapPlugin(options) {
     return function (openmct) {
-        openmct.types.addType('view.traverse', {
+        openmct.types.addType(MAP_TYPE, {
             name: 'Traverse Map',
             description: 'A visualization of a rover traverse.',
-            key: 'view.map',
+            key: MAP_TYPE,
             cssClass: 'icon-object',
             creatable: true,
             initialize: function (obj) {
@@ -52,6 +68,17 @@ export default function mapPlugin(options) {
                     required: true
                 }
             ]
+        });
+
+        (openmct.mainViews || openmct.objectViews).addProvider({
+            key: "map",
+            name: "Heat Map",
+            canView: function (domainObject) {
+                return domainObject.type === MAP_TYPE;
+            },
+            view: function (domainObject) {
+                return new CesiumView(domainObject);
+            }
         });
     };
 };
