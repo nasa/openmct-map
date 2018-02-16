@@ -25,6 +25,7 @@
   "homepage": "https://github.com/VWoeltjen/openmct-heatmap#readme",
   "dependencies": {},
   "devDependencies": {
+    "cesium": "^1.42.1",
     "css-loader": "^0.28.7",
     "html-loader": "^0.5.1",
     "node-sass": "^4.7.2",
