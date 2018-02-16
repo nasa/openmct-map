@@ -1,3 +1,6 @@
+import Cesium from "cesium/Cesium";
+import "cesium/Widgets/widgets.css";
+
 const MAP_TYPE = 'view.traverse';
 
 class CesiumView {
@@ -6,7 +9,7 @@ class CesiumView {
     }
 
     show(container) {
-        container.innerText = "Hello world";
+        new Cesium.Viewer(container);
     }
 
     destroy() {
@@ -15,6 +18,9 @@ class CesiumView {
 }
 
 export default function mapPlugin(options) {
+    if (options.cesiumBaseUrl) {
+        window.CESIUM_BASE_URL = options.cesiumBaseUrl;
+    }
     return function (openmct) {
         openmct.types.addType(MAP_TYPE, {
             name: 'Traverse Map',

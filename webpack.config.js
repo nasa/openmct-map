@@ -1,5 +1,9 @@
+// Cesium integration from https://cesiumjs.org/tutorials/cesium-and-webpack/
+
 var path = require('path');
+var webpack = require('webpack');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+var CopywebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './src/openmct-map',
@@ -8,47 +12,35 @@ module.exports = {
         filename: "openmct-map.js",
         library: "MapPlugin",
         libraryTarget: "umd",
-        libraryExport: "default"
+        libraryExport: "default",
+        sourcePrefix: "" // For cesium
+    },
+    amd: {
+        toUrlUndefined: true // For cesium
+    },
+    node: {
+        fs: "empty" // For cesium 
     },
     module: {
         rules: [
-            {
-                test: /\.scss$/,
-                use: [
-                    {
-                        loader: "style-loader"
-                    },
-                    {
-                        loader: "css-loader",
-                        options: {
-                            sourceMap: true
-                        }
-                    },
-                    {
-                        loader: "sass-loader",
-                        options: {
-                            sourceMap: true
-                        }
-                    }
-                ]
-            },
-            {
-                test: /\.html$/,
-                use: [
-                    {
-                        loader: "html-loader"
-                    }
-                ]
-            }
+            { test: /\.css$/, use: ["style-loader", "css-loader"] },
+            { test: /\.(png|gif|jpg|jpeg|svg|xml|json)$/, use: ["url-loader"] },
+            { test: /\.html$/, use: ["html-loader"] }
         ]
     },
     resolve: {
         alias: {
-            vue: "vue/dist/vue.min.js"
+            vue: "vue/dist/vue.min.js",
+            cesium: path.resolve(__dirname, "node_modules/cesium/Source")
         }
     },
     devtool: "source-map",
     plugins: [
-        new UglifyJsPlugin({ sourceMap: true })
-    ]
+        new UglifyJsPlugin({ sourceMap: true }),
+        new CopywebpackPlugin([{ from: "node_modules/cesium/Build/Cesium", to: 'cesium' }]),
+        new webpack.DefinePlugin({ CESIUM_BASE_URL: "dist/cesium" })
+    ],
+    devServer: {
+        contentBase: path.join(__dirname, "dist")
+    }
 };
