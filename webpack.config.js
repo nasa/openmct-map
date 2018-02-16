@@ -41,8 +41,7 @@ module.exports = {
             { from: "node_modules/cesium/Build/Cesium/Workers", to: 'cesium/Workers' },
             { from: "node_modules/cesium/Source/Widgets", to: 'cesium/Widgets' },
             { from: "node_modules/cesium/Source/Assets", to: 'cesium/Assets' }
-        ]),
-        new webpack.DefinePlugin({ FOO: "dist/cesium" })
+        ])
     ],
     devServer: {
         contentBase: path.join(__dirname, "dist")

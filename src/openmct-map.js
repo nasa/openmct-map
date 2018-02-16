@@ -18,9 +18,6 @@ class CesiumView {
 }
 
 export default function mapPlugin(options) {
-    if (options.cesiumBaseUrl) {
-        window.CESIUM_BASE_URL = options.cesiumBaseUrl;
-    }
     return function (openmct) {
         openmct.types.addType(MAP_TYPE, {
             name: 'Traverse Map',
