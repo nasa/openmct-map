@@ -28,6 +28,7 @@
     "css-loader": "^0.28.7",
     "html-loader": "^0.5.1",
     "node-sass": "^4.7.2",
+    "ol": "^4.6.4",
     "openmct": "git+https://github.com/nasa/openmct.git",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
