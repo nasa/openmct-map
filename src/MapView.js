@@ -1,6 +1,6 @@
 import 'ol/ol.css';
 
-export class MapView {
+export default class MapView {
     constructor(domainObject) {
         
     }

@@ -1,13 +1,24 @@
+import MapView from './MapView';
+
 export default function mapPlugin(options) {
     return function (openmct) {
         openmct.types.addType('view.traverse', {
             name: 'Traverse Map',
             description: 'A visualization of a rover traverse.',
-            key: 'view.map',
+            key: 'view.traverse',
             cssClass: 'icon-object',
             creatable: true,
-            initialize: function (obj)
+            initialize: function (obj) {
                 obj.layers = [];
+            }
+        });
+        
+        openmct.objectViews.addProvider({
+            canView: function (domainObject) {
+                return domainObject.type === 'view.traverse';
+            },
+            view: function (domainObject) {
+                return new MapView(domainObject);
             }
         });
     };
