@@ -1,33 +1,23 @@
-# Open MCT Heatmap
+# Open MCT Map
 
 A plugin for [Open MCT](https://nasa.github.io/openmct)
-adding heat map style visualizations of telemetry data.
+adding map style visualizations.
 
 ## Build
 
 ```bash
-$ git clone https://github.com/VWoeltjen/openmct-heatmap.git
-$ cd openmct-heatmap
 $ npm install
 ```
 
 A UMD module with associated source maps will be written to the
 `dist` folder. When installed as a global, the plugin will be
-available as `HeatmapPlugin`.
+available as `MapPlugin`.
 
 ## Usage
 
 See [`index.html`](index.html) for an example of use.
 
 ## Developer Environment
-
-Follow build instructions, then trigger a build of `openmct`:
-
-```bash
-cd node_modules/openmct
-npm install
-cd ../..
-```
 
 To serve the application, use `webpack-dev-loader`:
 
