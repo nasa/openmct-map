@@ -7,7 +7,8 @@ module.exports = {
         path: path.resolve(__dirname, "dist"),
         filename: "openmct-map.js",
         library: "MapPlugin",
-        libraryTarget: "umd"
+        libraryTarget: "umd",
+        libraryExport: "default"
     },
     module: {
         rules: [
@@ -44,7 +45,7 @@ module.exports = {
                         }
                     }
                 ]
-            },            
+            },
             {
                 test: /\.html$/,
                 use: [
