@@ -23,7 +23,9 @@
     "url": "https://github.com/VWoeltjen/openmct-heatmap/issues"
   },
   "homepage": "https://github.com/VWoeltjen/openmct-heatmap#readme",
-  "dependencies": {},
+  "dependencies": {
+    "proj4": "^2.4.4"
+  },
   "devDependencies": {
     "css-loader": "^0.28.7",
     "html-loader": "^0.5.1",

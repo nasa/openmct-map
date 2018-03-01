@@ -14,18 +14,25 @@ import KML from 'ol/format/kml';
 import Feature from 'ol/feature';
 import Point from 'ol/geom/point';
 import LineString from 'ol/geom/linestring';
+import TileWMS from 'ol/source/tilewms';
+import proj4 from 'proj4';
+
+proj4.defs(
+    "EPSG:3996",
+    "+proj=stere +lat_0=90 +lat_ts=75 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"
+);
 
 export default class OpenLayersMapView {
     constructor() {
         this.map = new Map({
             view: new View({
                 projection: new Projection({
-                    code: "none",
+                    code: "EPSG:3996",
                     units: "m",
-                    extent: [-2000, -2000, 2000, 2000]
+                    extent: [0, 0, 700000, 1300000]
                 }),
-                center: [0, 0],
-                zoom: 2
+                center: [-47.111813945130351, 87.497173457505312],
+                zoom: 28
             })
         });
     }

@@ -3,7 +3,7 @@ export default class TraverseView {
         this.domainObject = domainObject;
         this.map = map;
 
-        this.map.image("data/ldem.png", 0, 0, 2000, 2000);
+        this.map.image("data/ldem.png", -47, 88, -48, 87);
         this.map.traverse("data/plan.kml");
     }
 
