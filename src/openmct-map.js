@@ -1,4 +1,5 @@
-import MapView from './MapView';
+import TraverseView from './TraverseView';
+import OpenLayersMapView from './OpenLayersMapView';
 
 export default function mapPlugin(options) {
     return function (openmct) {
@@ -19,7 +20,7 @@ export default function mapPlugin(options) {
                 return domainObject.type === 'view.traverse';
             },
             view: function (domainObject) {
-                return new MapView(domainObject);
+                return new TraverseView(domainObject, new OpenLayersMapView());
             }
         });
     };
