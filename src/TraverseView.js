@@ -4,6 +4,7 @@ export default class TraverseView {
         this.map = map;
 
         this.map.image("data/ldem.png", 0, 0, 2000, 2000);
+        this.map.traverse("data/plan.kml");
     }
 
     show(element) {

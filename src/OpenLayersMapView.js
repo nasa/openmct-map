@@ -10,6 +10,7 @@ import ImageStatic from 'ol/source/imagestatic';
 import Heatmap from 'ol/layer/heatmap';
 import Collection from 'ol/collection';
 import Vector from 'ol/source/vector';
+import KML from 'ol/format/kml';
 import Feature from 'ol/feature';
 import Point from 'ol/geom/point';
 import LineString from 'ol/geom/linestring';
@@ -44,6 +45,12 @@ export default class OpenLayersMapView {
                 imageExtent: [left, bottom, right, top],
                 url: url
             })
+        }));
+    }
+
+    traverse(url) {
+        this.map.addLayer(new VectorLayer({
+            source: new Vector({ url: url, format: new KML() })
         }));
     }
 
