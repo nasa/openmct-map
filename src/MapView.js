@@ -1,13 +1,20 @@
 import 'ol/ol.css';
 
+import Map from 'ol/map';
+import View from 'ol/view';
+import TileLayer from 'ol/layer/tile';
+import XYZ from 'ol/source/xyz';
+
 export default class MapView {
     constructor(domainObject) {
-        
+
     }
-    
+
     show(element) {
-        return new Map({
-            target: element,
+        var div = document.createElement('div');
+        element.appendChild(div);
+        this.map = new Map({
+            target: div,
             layers: [
                 new TileLayer({
                     source: new XYZ({
@@ -21,7 +28,7 @@ export default class MapView {
             })
         });
     }
-    
+
     destroy() {
         if (this.map) {
 
