@@ -2,6 +2,8 @@ export default class TraverseView {
     constructor(domainObject, map) {
         this.domainObject = domainObject;
         this.map = map;
+
+        this.map.image("data/ldem.png", 0, 0, 2000, 2000);
     }
 
     show(element) {

@@ -17,13 +17,6 @@ import LineString from 'ol/geom/linestring';
 export default class OpenLayersMapView {
     constructor() {
         this.map = new Map({
-            layers: [
-                new TileLayer({
-                    source: new XYZ({
-                        url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                    })
-                })
-            ],
             view: new View({
                 projection: new Projection({
                     code: "none",
