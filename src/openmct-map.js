@@ -12,8 +12,9 @@ export default function mapPlugin(options) {
                 obj.layers = [];
             }
         });
-        
+
         openmct.objectViews.addProvider({
+            key: 'traverse',
             canView: function (domainObject) {
                 return domainObject.type === 'view.traverse';
             },
