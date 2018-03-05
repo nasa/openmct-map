@@ -12,18 +12,13 @@ export default function mapPlugin(options) {
             initialize: function (obj) {
                 obj.layers = [];
             },
-            forms: [
+            form: [
                 {
-                    key: "x",
-                    name: "X",
-                    control: "textfield",
-                    required: true
-                },
-                {
-                    key: "y",
-                    name: "Y",
-                    control: "textfield",
-                    required: true
+                    key: "layers",
+                    name: "Layers",
+                    control: "textarea",
+                    required: true,
+                    cssClass: "l-textarea-sm"
                 }
             ]
         });
