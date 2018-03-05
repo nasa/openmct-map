@@ -11,7 +11,21 @@ export default function mapPlugin(options) {
             creatable: true,
             initialize: function (obj) {
                 obj.layers = [];
-            }
+            },
+            forms: [
+                {
+                    key: "x",
+                    name: "X",
+                    control: "textfield",
+                    required: true
+                },
+                {
+                    key: "y",
+                    name: "Y",
+                    control: "textfield",
+                    required: true
+                }
+            ]
         });
 
         openmct.objectViews.addProvider({
