@@ -46,6 +46,10 @@ export default class OpenLayersMapView {
         this.map.destroy();
     }
 
+    layer(options) {
+        this[options.type](options);
+    }
+
     image(url, left, bottom, right, top) {
         this.map.addLayer(new ImageLayer({
             source: new ImageStatic({
