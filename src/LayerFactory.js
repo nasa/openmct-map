@@ -1,8 +1,13 @@
-class ImageLayer {
+class Layer {
     constructor(options) {
         this.options = options;
     }
 
+    destroy() {
+    }
+}
+
+class ImageLayer extends Layer {
     show(map) {
         map.image(
             this.options.url,
@@ -11,6 +16,13 @@ class ImageLayer {
             this.options.right,
             this.options.top
         );
+    }
+}
+
+class PathLayer extends Layer {
+    show(map) {
+        let xId = this.options.x;
+        let yId = this.options.y;
     }
 }
 
