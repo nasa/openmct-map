@@ -19,15 +19,37 @@ class ImageLayer extends Layer {
     }
 }
 
-class PathLayer extends Layer {
+class TelemetryLayer extends Layer {
+    constructor(openmct, ids) {
+        super({});
+        this.telemetry = new Telemetry(openmct, ids);
+    }
+
     show(map) {
-        let xId = this.options.x;
-        let yId = this.options.y;
+        let layer = this.layer(map);
+        this.telemetry.on('reset', layer.reset.bind(layer));
+        this.telemetry.on('add', layer.add.bind(layer));
+        this.telemetry.activate();
+    }
+
+    layer(map) {
+        throw new Error("Unimplemented.");
+    }
+
+    destroy() {
+        this.telemetry.deactivate();
+    }
+}
+
+class PathLayer extends TelemetryLayer {
+    layer(map) {
+        return map.line();
     }
 }
 
 const CONSTRUCTORS = {
-    image: ImageLayer
+    image: ImageLayer,
+    path: PathLayer
 };
 
 export default class LayerFactory {
