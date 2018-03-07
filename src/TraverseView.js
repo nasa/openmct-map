@@ -7,20 +7,18 @@ export default class TraverseView {
     }
 
     show(element) {
+        this.layers = this.domainObject.layers
+            .map(options => this.layerFactory.create(options));
+        this.layers.forEach(layer => layer.show(this.map));
+
         let div = document.createElement('div');
         element.appendChild(div);
-        this.layers = this.domainObject.layers
-            .map(this.layerFactory.create.bind(this.layerFactory));
-        this.layers.forEach(function (layer) {
-            layer.show(this.map);
-        }, this);
         this.map.show(div);
     }
 
     destroy() {
         this.map.destroy();
-        this.layers.forEach(function (layer) {
-            layer.destroy();
-        });
+        this.layers.forEach(layer => layer.destroy());
+        this.layers = [];
     }
 }
