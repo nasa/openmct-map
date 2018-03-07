@@ -91,5 +91,6 @@ export default class Telemetry extends EventEmitter {
         Object.keys(this.unsubscribes).forEach(function (property) {
             unsubscribes[property]();
         });
+        this.unsubscribes = {};
     }
 }
