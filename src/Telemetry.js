@@ -7,6 +7,7 @@ export default class Telemetry extends EventEmitter {
         this.metadata = {};
         this.unsubscribes = {};
         this.latest = {};
+        this.queue = [];
     }
 
     activate() {
@@ -65,6 +66,7 @@ export default class Telemetry extends EventEmitter {
             this.queue.forEach(function (pending) {
                 this.add(pending.property, pending.datum);
             }, this);
+            this.queue = [];
         }.bind(this));
     }
 
