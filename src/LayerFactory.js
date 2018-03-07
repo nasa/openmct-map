@@ -1,5 +1,8 @@
+import TelemetryGroup from './TelemetryGroup';
+
 class Layer {
-    constructor(options) {
+    constructor(openmct, options) {
+        this.openmct = openmct;
         this.options = options;
     }
 
@@ -20,9 +23,9 @@ class ImageLayer extends Layer {
 }
 
 class TelemetryLayer extends Layer {
-    constructor(openmct, ids) {
-        super({});
-        this.telemetry = new Telemetry(openmct, ids);
+    constructor(openmct, options, ids) {
+        super(options);
+        this.telemetry = new TelemetryGroup(openmct, ids);
     }
 
     show(map) {
@@ -42,6 +45,10 @@ class TelemetryLayer extends Layer {
 }
 
 class PathLayer extends TelemetryLayer {
+    constructor(openmct, options) {
+        super(openmct, options, { x: options.x, y: options.y });
+    }
+
     layer(map) {
         return map.line();
     }
@@ -53,8 +60,12 @@ const CONSTRUCTORS = {
 };
 
 export default class LayerFactory {
+    constructor(openmct) {
+        this.openmct = openmct;
+    }
+
     create(options) {
         let Constructor = CONSTRUCTORS[options.type];
-        return new Constructor(options);
+        return new Constructor(this.openmct, options);
     }
 }
