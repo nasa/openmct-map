@@ -1,6 +1,6 @@
 import EventEmitter from "eventemitter3";
 
-export default class Telemetry extends EventEmitter {
+export default class TelemetryGroup extends EventEmitter {
     constructor(openmct, ids) {
         this.openmct = openmct;
         this.ids = ids;
