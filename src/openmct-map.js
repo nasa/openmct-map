@@ -1,3 +1,4 @@
+import LayerFactory from './LayerFactory';
 import TraverseView from './TraverseView';
 import OpenLayersMapView from './OpenLayersMapView';
 
@@ -49,13 +50,14 @@ export default function mapPlugin(options) {
             ]
         });
 
+        let LayerFactory = new LayerFactory(openmct);
         openmct.objectViews.addProvider({
             key: 'traverse',
             canView: function (domainObject) {
                 return domainObject.type === 'view.traverse';
             },
             view: function (domainObject) {
-                return new TraverseView(domainObject, new OpenLayersMapView());
+                return new TraverseView(domainObject, OpenLayersMapView, layerFactory);
             }
         });
     };

@@ -1,7 +1,7 @@
 export default class TraverseView {
-    constructor(domainObject, map, layerFactory) {
+    constructor(domainObject, MapView, layerFactory) {
         this.domainObject = domainObject;
-        this.map = map;
+        this.map = new MapView();
         this.layerFactory = layerFactory;
         this.layers = [];
     }
