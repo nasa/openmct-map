@@ -84,32 +84,28 @@ export default class OpenLayersMapView {
 
     line() {
         let geometry = new LineString([]);
-        let point = new Point([47.111813945130351, 87.497173457505312]);
         this.map.addLayer(new VectorLayer({
             source: new Vector({
-                features: [
-                    new Feature({ geometry: geometry }),
-                    new Feature({ geometry: point })
-                ]
+                features: [new Feature({ geometry: geometry })]
             })
         }));
         return {
-            add(datum) {
-                geometry.appendCoordinate([datum.x, datum.y]);
-                point.setCoordinates([datum.x, datum.y]);
-            },
+            add: (datum) => geometry.appendCoordinate([datum.x, datum.y]),
             reset: () => geometry.setCoordinates([])
         };
     }
 
-    point(coordinate) {
+    point() {
+        let point = new Point([47.111813945130351, 87.497173457505312]);
         this.map.addLayer(new VectorLayer({
             source: new Vector({
-                features: [new Feature({
-                    geometry: new Point(coordinate)
-                })]
+                features: [new Feature({ geometry: point })]
             })
         }));
+        return {
+            add: (datum) => point.setCoordinates([datum.x, datum.y]),
+            reset: () => point.setCoordinates([])
+        };
     }
 
     coordinate(event) {

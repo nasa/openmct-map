@@ -54,6 +54,16 @@ class PathLayer extends TelemetryLayer {
     }
 }
 
+class PointLayer extends TelemetryLayer {
+    constructor(openmct, options) {
+        super(openmct, options, { x: options.x, y: options.y }, ['x', 'y']);
+    }
+
+    layer(map) {
+        return map.point();
+    }
+}
+
 class HeatLayer extends TelemetryLayer {
     constructor(openmct, options) {
         super(openmct, options, { x: options.x, y: options.y, z: options.z }, ['z']);
@@ -75,7 +85,8 @@ const CONSTRUCTORS = {
     image: ImageLayer,
     path: PathLayer,
     plan: PlanLayer,
-    heat: HeatLayer
+    heat: HeatLayer,
+    point: PointLayer
 };
 
 export default class LayerFactory {
