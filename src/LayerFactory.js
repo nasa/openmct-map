@@ -54,9 +54,17 @@ class PathLayer extends TelemetryLayer {
     }
 }
 
+class PlanLayer extends Layer {
+    show(map) {
+        let layer = map.line();
+        this.options.coordinates.forEach(layer.add.bind(layer));
+    }
+}
+
 const CONSTRUCTORS = {
     image: ImageLayer,
-    path: PathLayer
+    path: PathLayer,
+    plan: PlanLayer
 };
 
 export default class LayerFactory {
