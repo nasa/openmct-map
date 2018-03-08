@@ -10,6 +10,8 @@ export default class TelemetryGroup extends EventEmitter {
         this.requests = {};
         this.latest = {};
         this.queue = [];
+        this.timeSystemCallback = this.activate.bind(this);
+        this.boundsCallback = (bounds, wasTick) => (!wasTick && this.activate());
     }
 
     activate() {
@@ -18,6 +20,10 @@ export default class TelemetryGroup extends EventEmitter {
         let data = {};
         this.emit('reset');
         this.loading = true;
+
+        this.openmct.time.on('bounds', this.boundsCallback);
+        this.openmct.time.on('timeSystem', this.timeSystemCallback);
+
         Promise.all(properties.map(function (property) {
             let idParts = this.ids[property].split(":");
             let identifier = idParts.length > 1 ?
@@ -96,5 +102,7 @@ export default class TelemetryGroup extends EventEmitter {
             this.unsubscribes[property]();
         }, this);
         this.unsubscribes = {};
+        this.openmct.time.off('bounds', this.boundsCallback);
+        this.openmct.time.off('timeSystem', this.timeSystemCallback);
     }
 }
