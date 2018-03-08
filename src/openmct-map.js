@@ -50,7 +50,7 @@ export default function mapPlugin(options) {
             ]
         });
 
-        let LayerFactory = new LayerFactory(openmct);
+        let layerFactory = new LayerFactory(openmct);
         openmct.objectViews.addProvider({
             key: 'traverse',
             canView: function (domainObject) {
