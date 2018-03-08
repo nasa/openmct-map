@@ -24,7 +24,7 @@ class ImageLayer extends Layer {
 
 class TelemetryLayer extends Layer {
     constructor(openmct, options, ids) {
-        super(options);
+        super(openmct, options);
         this.telemetry = new TelemetryGroup(openmct, ids);
     }
 

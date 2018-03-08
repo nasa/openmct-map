@@ -31,7 +31,7 @@ export default class OpenLayersMapView {
                     units: "m",
                     extent: [0, 0, 700000, 1300000]
                 }),
-                center: [-47.111813945130351, 87.497173457505312],
+                center: [47.111813945130351, 87.497173457505312],
                 zoom: 28
             })
         });
@@ -43,11 +43,7 @@ export default class OpenLayersMapView {
     }
 
     destroy() {
-        this.map.destroy();
-    }
-
-    layer(options) {
-        this[options.type](options);
+        delete this.map;
     }
 
     image(url, left, bottom, right, top) {
@@ -81,14 +77,17 @@ export default class OpenLayersMapView {
         }));
     }
 
-    line(coordinates) {
+    line() {
+        let geometry = new LineString([]);
         this.map.addLayer(new VectorLayer({
             source: new Vector({
-                features: [new Feature({
-                    geometry: new LineString(coordinates)
-                })]
+                features: [new Feature({ geometry: geometry })]
             })
         }));
+        return {
+            add: (x, y, datum) => geometry.appendCoordinate([x, y]),
+            reset: () => geometry.setCoordinates([])
+        };
     }
 
     point(coordinate) {

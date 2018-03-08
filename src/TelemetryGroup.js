@@ -2,10 +2,12 @@ import EventEmitter from "eventemitter3";
 
 export default class TelemetryGroup extends EventEmitter {
     constructor(openmct, ids) {
+        super();
         this.openmct = openmct;
         this.ids = ids;
         this.metadata = {};
         this.unsubscribes = {};
+        this.requests = {};
         this.latest = {};
         this.queue = [];
     }
@@ -17,27 +19,29 @@ export default class TelemetryGroup extends EventEmitter {
         this.emit('reset');
         this.loading = true;
         Promise.all(properties.map(function (property) {
-            let idParts = domainObject[property].split(":");
+            let idParts = this.ids[property].split(":");
             let identifier = idParts.length > 1 ?
                 { namespace: idParts[0], key: idParts[1] } : idParts[0];
             let add = this.add.bind(this, property);
-            return this.openmct.objects.get(identifer).then(function (object) {
+            return this.openmct.objects.get(identifier).then(function (object) {
                 this.metadata[property] =
-                    this.openmct.telemetry.getMetadata(obj);
+                    this.openmct.telemetry.getMetadata(object);
                 this.unsubscribes[property] =
                     this.openmct.telemetry.subscribe(object, add);
                 this.requests[property] =
                     this.openmct.telemetry.request(object, bounds);
-            });
+            }.bind(this));
         }, this)).then(function () {
             return Promise.all(properties.map(function (property) {
                 return this.requests[property].then(function (series) {
                     data[property] = series;
-                })
-            }))
+                });
+            }, this));
         }.bind(this)).then(function () {
-            let indexes =
-                properties.reduce((indexes, property) => indexes[property] = 0, {});
+            let indexes = properties.reduce(function (indexes, property) {
+                indexes[property] = 0;
+                return indexes;
+            }, {});
             let domain = this.openmct.time.timeSystem().key;
             let keys = properties.reduce(function (keys, property) {
                 var meta = this.metadata[property].valuesForHints(['domain']).find(function (m) {
@@ -45,7 +49,7 @@ export default class TelemetryGroup extends EventEmitter {
                 });
                 keys[property] = meta.source || meta.key || domain;
                 return keys;
-            }.bind(this));
+            }.bind(this), {});
             let remaining = (property) => indexes[property] < data[property].length;
             let time = (property) => data[property][indexes[property]][keys[property]];
 
@@ -60,7 +64,7 @@ export default class TelemetryGroup extends EventEmitter {
                         this.add(property, data[property][indexes[property]]);
                         indexes[property] += 1;
                     }
-                });
+                }, this);
             }
 
             this.queue.forEach(function (pending) {
