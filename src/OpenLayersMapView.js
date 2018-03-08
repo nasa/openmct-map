@@ -70,7 +70,7 @@ export default class OpenLayersMapView {
             radius: 5
         }));
         return {
-            add: (datum) => geometry.appendCoordinate([datum.x, datum.y]),
+            add: (datum) => geometry.appendPoint(new Point([datum.x, datum.y, datum.z])),
             reset: () => geometry.setCoordinates([])
         };
     }
@@ -83,7 +83,7 @@ export default class OpenLayersMapView {
             })
         }));
         return {
-            add: (datum) => geometry.appendPoint(new Point([datum.x, datum.y, datum.z])),
+            add: (datum) => geometry.appendCoordinate([datum.x, datum.y]),
             reset: () => geometry.setCoordinates([])
         };
     }
