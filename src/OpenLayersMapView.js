@@ -13,6 +13,7 @@ import Vector from 'ol/source/vector';
 import KML from 'ol/format/kml';
 import Feature from 'ol/feature';
 import Point from 'ol/geom/point';
+import MultiPoint from 'ol/geom/multipoint';
 import LineString from 'ol/geom/linestring';
 import TileWMS from 'ol/source/tilewms';
 import proj4 from 'proj4';
@@ -61,20 +62,17 @@ export default class OpenLayersMapView {
         }));
     }
 
-    heatmap(coordinates, blur, radius) {
+    heatmap() {
+        let geometry = new MultiPoint([]);
         this.map.addLayer(new Heatmap({
-            source: new Vector({
-                features: coordinates.map((coordinate) => {
-                    let feature = new Feature({
-                        geometry: new Point(coordinate)
-                    });
-                    feature.set('weight', coordinate[2]);
-                    return feature;
-                })
-            }),
-            blur: blur,
-            radius: radius
+            source: new Vector({ features: [new Feature({ geometry })]}),
+            blur: 0,
+            radius: 5
         }));
+        return {
+            add: (datum) => geometry.appendCoordinate([datum.x, datum.y]),
+            reset: () => geometry.setCoordinates([])
+        };
     }
 
     line() {
@@ -85,7 +83,7 @@ export default class OpenLayersMapView {
             })
         }));
         return {
-            add: (datum) => geometry.appendCoordinate([datum.x, datum.y]),
+            add: (datum) => geometry.appendPoint(new Point([datum.x, datum.y, datum.z])),
             reset: () => geometry.setCoordinates([])
         };
     }
