@@ -1,14 +1,16 @@
 import EventEmitter from "eventemitter3";
 
 export default class TelemetryGroup extends EventEmitter {
-    constructor(openmct, ids) {
+    constructor(openmct, ids, triggers) {
         super();
         this.openmct = openmct;
         this.ids = ids;
+        this.triggers = triggers;
         this.metadata = {};
         this.unsubscribes = {};
         this.requests = {};
         this.latest = {};
+        this.seen = {};
         this.queue = [];
         this.timeSystemCallback = this.activate.bind(this);
         this.boundsCallback = (bounds, wasTick) => (!wasTick && this.activate());
@@ -89,9 +91,10 @@ export default class TelemetryGroup extends EventEmitter {
             let metadataValues = metadata.valuesForHints(["range"]);
             if (metadataValues.length > 0) {
                 this.latest[property] = datum[metadataValues[0].key];
-                if (Object.keys(this.latest).length === Object.keys(this.ids).length) {
+                this.seen[property] = true;
+                if (this.triggers.every((trigger => this.seen[trigger]))) {
                     this.emit('add', this.latest);
-                    this.latest = {};
+                    this.seen = {};
                 }
             }
         }

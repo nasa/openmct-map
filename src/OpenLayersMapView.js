@@ -33,7 +33,7 @@ export default class OpenLayersMapView {
                     extent: [0, 0, 700000, 1300000]
                 }),
                 center: [47.111813945130351, 87.497173457505312],
-                zoom: 28
+                zoom: 12
             })
         });
     }
@@ -66,8 +66,9 @@ export default class OpenLayersMapView {
         let geometry = new MultiPoint([]);
         this.map.addLayer(new Heatmap({
             source: new Vector({ features: [new Feature({ geometry })]}),
-            blur: 0,
-            radius: 5
+            blur: 5,
+            radius: 10,
+            weight: 'z'
         }));
         return {
             add: (datum) => geometry.appendPoint(new Point([datum.x, datum.y, datum.z])),

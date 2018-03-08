@@ -23,9 +23,9 @@ class ImageLayer extends Layer {
 }
 
 class TelemetryLayer extends Layer {
-    constructor(openmct, options, ids) {
+    constructor(openmct, options, ids, triggers) {
         super(openmct, options);
-        this.telemetry = new TelemetryGroup(openmct, ids);
+        this.telemetry = new TelemetryGroup(openmct, ids, triggers);
     }
 
     show(map) {
@@ -46,7 +46,7 @@ class TelemetryLayer extends Layer {
 
 class PathLayer extends TelemetryLayer {
     constructor(openmct, options) {
-        super(openmct, options, { x: options.x, y: options.y });
+        super(openmct, options, { x: options.x, y: options.y }, ['x', 'y']);
     }
 
     layer(map) {
@@ -56,7 +56,7 @@ class PathLayer extends TelemetryLayer {
 
 class HeatLayer extends TelemetryLayer {
     constructor(openmct, options) {
-        super(openmct, options, { x: options.x, y: options.y, z: options.z });
+        super(openmct, options, { x: options.x, y: options.y, z: options.z }, ['z']);
     }
 
     layer(map) {
