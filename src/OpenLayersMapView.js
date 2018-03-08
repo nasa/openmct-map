@@ -33,7 +33,7 @@ export default class OpenLayersMapView {
                     extent: [0, 0, 700000, 1300000]
                 }),
                 center: [47.111813945130351, 87.497173457505312],
-                zoom: 12
+                zoom: 24
             })
         });
     }
@@ -63,16 +63,21 @@ export default class OpenLayersMapView {
     }
 
     heatmap() {
-        let geometry = new MultiPoint([]);
+        let source = new Vector({ features: [] });
         this.map.addLayer(new Heatmap({
-            source: new Vector({ features: [new Feature({ geometry })]}),
+            source: source,
             blur: 5,
-            radius: 10,
-            weight: 'z'
+            radius: 10
         }));
         return {
-            add: (datum) => geometry.appendPoint(new Point([datum.x, datum.y, datum.z])),
-            reset: () => geometry.setCoordinates([])
+            add(datum) {
+                let feature = new Feature({
+                    geometry: new Point([datum.x, datum.y, datum.z])
+                });
+                feature.set('weight', datum.z);
+                source.addFeature(feature);
+            },
+            reset: source.clear.bind(source)
         };
     }
 
