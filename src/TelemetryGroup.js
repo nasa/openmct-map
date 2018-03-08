@@ -93,8 +93,8 @@ export default class TelemetryGroup extends EventEmitter {
 
     destroy() {
         Object.keys(this.unsubscribes).forEach(function (property) {
-            unsubscribes[property]();
-        });
+            this.unsubscribes[property]();
+        }, this);
         this.unsubscribes = {};
     }
 }

@@ -40,7 +40,7 @@ class TelemetryLayer extends Layer {
     }
 
     destroy() {
-        this.telemetry.deactivate();
+        this.telemetry.destroy();
     }
 }
 

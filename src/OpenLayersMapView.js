@@ -85,7 +85,7 @@ export default class OpenLayersMapView {
             })
         }));
         return {
-            add: (x, y, datum) => geometry.appendCoordinate([x, y]),
+            add: (datum) => geometry.appendCoordinate([datum.x, datum.y]),
             reset: () => geometry.setCoordinates([])
         };
     }
