@@ -108,6 +108,14 @@ export default class OpenLayersMapView {
         };
     }
 
+    camera() {
+        let center = this.map.getView().getCenter();
+        return {
+            add: (datum) => this.map.getView().setCenter([datum.x, datum.y]),
+            reset: () => this.map.getView().setCenter(center)
+        };
+    }
+
     coordinate(event) {
         return this.map.getEventCoordinate(event);
     }
