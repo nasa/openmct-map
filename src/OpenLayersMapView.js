@@ -17,19 +17,13 @@ import Point from 'ol/geom/point';
 import MultiPoint from 'ol/geom/multipoint';
 import LineString from 'ol/geom/linestring';
 import TileWMS from 'ol/source/tilewms';
-import proj4 from 'proj4';
-
-proj4.defs(
-    "EPSG:3996",
-    "+proj=stere +lat_0=90 +lat_ts=75 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"
-);
 
 export default class OpenLayersMapView {
     constructor() {
         this.map = new Map({
             view: new View({
                 projection: new Projection({
-                    code: "EPSG:3996",
+                    code: "none",
                     units: "m",
                     extent: [0, 0, 700000, 1300000]
                 }),
