@@ -44,23 +44,27 @@ class TelemetryLayer extends Layer {
     }
 }
 
-class PathLayer extends TelemetryLayer {
+class XYLayer extends TelemetryLayer {
     constructor(openmct, options) {
         super(openmct, options, { x: options.x, y: options.y }, ['x', 'y']);
     }
+}
 
+class PathLayer extends XYLayer {
     layer(map) {
         return map.line();
     }
 }
 
-class PointLayer extends TelemetryLayer {
-    constructor(openmct, options) {
-        super(openmct, options, { x: options.x, y: options.y }, ['x', 'y']);
-    }
-
+class PointLayer extends XYLayer {
     layer(map) {
         return map.point();
+    }
+}
+
+class CameraLayer extends XYLayer {
+    layer(map) {
+        return map.camera();
     }
 }
 
@@ -86,7 +90,8 @@ const CONSTRUCTORS = {
     path: PathLayer,
     plan: PlanLayer,
     heat: HeatLayer,
-    point: PointLayer
+    point: PointLayer,
+    camera: CameraLayer
 };
 
 export default class LayerFactory {
