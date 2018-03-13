@@ -19,8 +19,11 @@ import LineString from 'ol/geom/linestring';
 import TileWMS from 'ol/source/tilewms';
 import Select from 'ol/interaction/select';
 
-export default class OpenLayersMapView {
+import EventEmitter from 'eventemitter3';
+
+export default class OpenLayersMapView extends EventEmitter {
     constructor() {
+        super();
         this.map = new Map({
             view: new View({
                 projection: new Projection({
@@ -35,8 +38,11 @@ export default class OpenLayersMapView {
     }
 
     show(element) {
+        let select = new Select({ hitTolerance: 10 });
         this.map.setTarget(element);
         this.map.render();
+        this.map.addInteraction(select);
+        select.on('select', (e) => console.log(e));
     }
 
     destroy() {
@@ -106,13 +112,7 @@ export default class OpenLayersMapView {
     points() {
         let source = new Vector({ features: [] });
         let layer = new VectorLayer({ source });
-        let select = new Select({ hitTolerance: 10, layers: [layer] });
-
         this.map.addLayer(layer);
-        this.map.addInteraction(select);
-
-        select.on('select', (e) => console.log(e));
-
         return {
             add: (datum) => source.addFeature(new Feature({ geometry: new Point([datum.x, datum.y])})),
             reset: () => source.clear()
