@@ -40,7 +40,8 @@ export default function mapPlugin(options) {
                 return {
                     show(container) {
                         container.innerHTML = "<ul>" +
-                            selection.map((s) => JSON.stringify(selected.context.item.datum))
+                            selection
+                                .map((selected) => JSON.stringify(selected.context.item.datum))
                                 .map((s) => "<li>" + s + "<li>").join("\n") +
                             "</ul>";
                     },
