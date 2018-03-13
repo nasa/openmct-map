@@ -19,7 +19,6 @@ import LineString from 'ol/geom/linestring';
 import TileWMS from 'ol/source/tilewms';
 import Select from 'ol/interaction/select';
 import Draw from 'ol/interaction/draw';
-import Snap from 'ol/interaction/snap';
 import condition from 'ol/events/condition';
 
 import EventEmitter from 'eventemitter3';
@@ -43,13 +42,19 @@ export default class OpenLayersMapView extends EventEmitter {
     show(element) {
         let select = new Select({ hitTolerance: 10 });
         let source = new Vector({ features: [] });
+        let draw = new Draw({ source, type: 'Point', condition: condition.altKeyOnly });
         this.map.addLayer(new VectorLayer({ source }));
         this.map.setTarget(element);
         this.map.render();
 
         this.map.addInteraction(select);
-        this.map.addInteraction(new Draw({ source, type: 'Point', condition: condition.shiftKeyOnly }));
-        this.map.addInteraction(new Snap({ hitTolerance: 5 }));
+        this.map.addInteraction(draw);
+
+        draw.on('drawend', function (event) {
+            let coordinates = event.feature.getGeometry().getCoordinates();
+            event.feature.set('datum', { x: coordinates[0], y: coordinates[1] });
+        });
+
         select.on('select', (e) => this.emit(
             'select',
             e.selected.map((e) => e.get('datum'))
