@@ -62,6 +62,12 @@ class PointLayer extends XYLayer {
     }
 }
 
+class PointsLayer extends XYLayer {
+    layer(map) {
+        return map.points();
+    }
+}
+
 class CameraLayer extends XYLayer {
     layer(map) {
         return map.camera();
@@ -91,6 +97,7 @@ const CONSTRUCTORS = {
     plan: PlanLayer,
     heat: HeatLayer,
     point: PointLayer,
+    points: PointsLayer,
     camera: CameraLayer
 };
 

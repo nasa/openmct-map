@@ -17,6 +17,7 @@ import Point from 'ol/geom/point';
 import MultiPoint from 'ol/geom/multipoint';
 import LineString from 'ol/geom/linestring';
 import TileWMS from 'ol/source/tilewms';
+import Select from 'ol/interaction/select';
 
 export default class OpenLayersMapView {
     constructor() {
@@ -101,6 +102,23 @@ export default class OpenLayersMapView {
             reset: () => point.setCoordinates([])
         };
     }
+
+    points() {
+        let source = new Vector({ features: [] });
+        let layer = new VectorLayer({ source });
+        let select = new Select({ hitTolerance: 10, layers: [layer] });
+
+        this.map.addLayer(layer);
+        this.map.addInteraction(select);
+
+        select.on('select', (e) => console.log(e));
+
+        return {
+            add: (datum) => source.addFeature(new Feature({ geometry: new Point([datum.x, datum.y])})),
+            reset: () => source.clear()
+        };
+    }
+
 
     camera() {
         let center = this.map.getView().getCenter();
