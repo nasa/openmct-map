@@ -30,20 +30,32 @@ export default function mapPlugin(options) {
             template: "<code ng-controller='JSONController'><textarea ng-model='jsonText'></textarea></code>"
         });
 
+        let isDatum = (selected) => selected.context.item.type === 'datum';
         openmct.inspectorViews.addProvider({
             key: "map-feature",
             name: 'Features',
-            canView(selection) {
-                return selection.some((selected) => selected.context.item.type === 'datum');
-            },
+            canView: (selection) => selection.some(isDatum),
             view(selection) {
                 return {
                     show(container) {
-                        container.innerHTML = "<ul>" +
-                            selection
-                                .map((selected) => JSON.stringify(selected.context.item.datum))
-                                .map((s) => "<li>" + s + "<li>").join("\n") +
-                            "</ul>";
+                        let ul = document.createElement('ul');
+                        selection.filter(isDatum)
+                            .map((selected) => selected.context.item.datum)
+                            .forEach((datum) => {
+                                let li = document.createElement('li');
+                                let dl = document.createElement('dl');
+                                Object.keys(datum).forEach((key) => {
+                                    let dt = document.createElement('dt');
+                                    let dd = document.createElement('dd');
+                                    dt.textContent = key;
+                                    dd.textContent = datum[key];
+                                    dl.appendChild(dt);
+                                    dl.appendChild(dd);
+                                });
+                                li.appendChild(dl);
+                                ul.appendChild(li);
+                            });
+                        container.appendChild(ul);
                     },
                     destroy() {
                     }
