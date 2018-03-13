@@ -77,7 +77,12 @@ export default function mapPlugin(options) {
                 return domainObject.type === 'view.traverse';
             },
             view: function (domainObject) {
-                return new TraverseView(domainObject, OpenLayersMapView, layerFactory);
+                return new TraverseView(
+                    domainObject,
+                    OpenLayersMapView,
+                    layerFactory,
+                    openmct.selection
+                );
             }
         });
     };
