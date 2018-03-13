@@ -80,13 +80,9 @@ export default class OpenLayersMapView extends EventEmitter {
         }));
     }
 
-    heatmap() {
+    heatmap(blur, radius, gradient) {
         let source = new Vector({ features: [] });
-        this.map.addLayer(new Heatmap({
-            source: source,
-            blur: 5,
-            radius: 10
-        }));
+        this.map.addLayer(new Heatmap({ source, blur, radius, gradient }));
         return {
             add(datum) {
                 let feature = new Feature({

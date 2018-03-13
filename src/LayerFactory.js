@@ -80,7 +80,7 @@ class HeatLayer extends TelemetryLayer {
     }
 
     layer(map) {
-        return map.heatmap();
+        return map.heatmap(this.options.blur, this.options.radius, this.options.gradient);
     }
 }
 
