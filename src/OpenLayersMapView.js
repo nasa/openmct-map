@@ -111,14 +111,12 @@ export default class OpenLayersMapView extends EventEmitter {
 
     points() {
         let source = new Vector({ features: [] });
-        let layer = new VectorLayer({ source });
-        this.map.addLayer(layer);
+        this.map.addLayer(new VectorLayer({ source }));
         return {
             add: (datum) => source.addFeature(new Feature({ geometry: new Point([datum.x, datum.y])})),
             reset: () => source.clear()
         };
     }
-
 
     camera() {
         let center = this.map.getView().getCenter();
