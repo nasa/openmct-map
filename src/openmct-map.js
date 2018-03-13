@@ -30,6 +30,26 @@ export default function mapPlugin(options) {
             template: "<code ng-controller='JSONController'><textarea ng-model='jsonText'></textarea></code>"
         });
 
+        openmct.inspectorViews.addProvider({
+            key: "map-feature",
+            name: 'Features',
+            canView(selection) {
+                return selection.some((selected) => selected.context.item.type === 'datum');
+            },
+            view(selection) {
+                return {
+                    show(container) {
+                        container.innerHTML = "<ul>" +
+                            selection.map((s) => JSON.stringify(selected.context.item.datum))
+                                .map((s) => "<li>" + s + "<li>").join("\n") +
+                            "</ul>";
+                    },
+                    destroy() {
+                    }
+                };
+            }
+        });
+
         openmct.types.addType('view.traverse', {
             name: 'Traverse Map',
             description: 'A visualization of a rover traverse.',

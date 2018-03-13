@@ -1,9 +1,10 @@
 export default class TraverseView {
-    constructor(domainObject, MapView, layerFactory) {
+    constructor(domainObject, MapView, layerFactory, selection) {
         this.domainObject = domainObject;
         this.map = new MapView();
         this.layerFactory = layerFactory;
         this.layers = [];
+        this.selection = selection;
     }
 
     show(element) {
@@ -14,7 +15,9 @@ export default class TraverseView {
         let div = document.createElement('div');
         element.appendChild(div);
         this.map.show(div);
-        this.map.on('select', (selected) => console.log(selected));
+        this.map.on('select', (selected) => this.selection.select(
+            selected.map((datum) => ({ context: { item: { type: 'datum', datum } } }))
+        ));
     }
 
     destroy() {
