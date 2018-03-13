@@ -14,6 +14,7 @@ export default class TraverseView {
         let div = document.createElement('div');
         element.appendChild(div);
         this.map.show(div);
+        this.map.on('select', (selected) => console.log(selected));
     }
 
     destroy() {

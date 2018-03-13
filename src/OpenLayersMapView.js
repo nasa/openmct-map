@@ -42,7 +42,10 @@ export default class OpenLayersMapView extends EventEmitter {
         this.map.setTarget(element);
         this.map.render();
         this.map.addInteraction(select);
-        select.on('select', (e) => console.log(e.selected.map((e) => e.get('datum'))));
+        select.on('select', (e) => this.emit(
+            'select',
+            e.selected.map((e) => e.get('datum'))
+        ));
     }
 
     destroy() {
