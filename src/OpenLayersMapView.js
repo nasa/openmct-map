@@ -42,7 +42,7 @@ export default class OpenLayersMapView extends EventEmitter {
         this.map.setTarget(element);
         this.map.render();
         this.map.addInteraction(select);
-        select.on('select', (e) => console.log(e));
+        select.on('select', (e) => console.log(e.selected.map((e) => e.get('datum'))));
     }
 
     destroy() {
@@ -74,7 +74,8 @@ export default class OpenLayersMapView extends EventEmitter {
         return {
             add(datum) {
                 let feature = new Feature({
-                    geometry: new Point([datum.x, datum.y, datum.z])
+                    geometry: new Point([datum.x, datum.y, datum.z]),
+                    datum: datum
                 });
                 feature.set('weight', datum.z);
                 source.addFeature(feature);
@@ -113,7 +114,10 @@ export default class OpenLayersMapView extends EventEmitter {
         let source = new Vector({ features: [] });
         this.map.addLayer(new VectorLayer({ source }));
         return {
-            add: (datum) => source.addFeature(new Feature({ geometry: new Point([datum.x, datum.y])})),
+            add: (datum) => source.addFeature(new Feature({
+                geometry: new Point([datum.x, datum.y]),
+                datum: datum
+            })),
             reset: () => source.clear()
         };
     }
