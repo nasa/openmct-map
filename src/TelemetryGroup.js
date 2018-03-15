@@ -64,15 +64,8 @@ export default class TelemetryGroup extends EventEmitter {
                 return indexes;
             }, {});
             let domain = this.openmct.time.timeSystem().key;
-            let keys = properties.reduce(function (keys, property) {
-                var meta = this.metadata[property].valuesForHints(['domain']).find(function (m) {
-                    return m.source === domain || m.key === domain;
-                });
-                keys[property] = meta.source || meta.key || domain;
-                return keys;
-            }.bind(this), {});
             let remaining = (property) => indexes[property] < data[property].length;
-            let time = (property) => data[property][indexes[property]][keys[property]];
+            let time = (property) => data[property][indexes[property]][this.keys[property].domain];
 
             this.loading = false;
 
@@ -99,16 +92,12 @@ export default class TelemetryGroup extends EventEmitter {
         if (this.loading) {
             this.queue.push({ property, datum });
         } else {
-            // Add datum, emit event if appropriate
-            let metadata = this.metadata[property];
-            let metadataValues = metadata.valuesForHints(["range"]);
-            if (metadataValues.length > 0) {
-                this.latest[property] = datum[metadataValues[0].key];
-                this.seen[property] = true;
-                if (this.triggers.every((trigger => this.seen[trigger]))) {
-                    this.emit('add', this.latest);
-                    this.seen = {};
-                }
+            this.latest[property] = datum[this.keys[property].range];
+            this.latest['time'] = datum[this.keys[property].domain];
+            this.seen[property] = true;
+            if (this.triggers.every((trigger => this.seen[trigger]))) {
+                this.emit('add', this.latest);
+                this.seen = {};
             }
         }
     }
