@@ -51,7 +51,7 @@ export default class TelemetryGroup extends EventEmitter {
                     domain: domainMetadata.source || domainMetadata.key || domain,
                     range: metadata.valuesForHints(["range"])[0].key
                 };
-            });
+            }, this);
 
             return Promise.all(properties.map(function (property) {
                 return this.requests[property].then(function (series) {
