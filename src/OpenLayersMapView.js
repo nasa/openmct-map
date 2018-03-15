@@ -33,7 +33,7 @@ export default class OpenLayersMapView extends EventEmitter {
                     units: "m",
                     extent: [0, 0, 700000, 1300000]
                 }),
-                center: [47.111813945130351, 87.497173457505312],
+                center: [0, 0],
                 zoom: 26
             })
         });
