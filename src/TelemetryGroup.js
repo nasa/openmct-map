@@ -7,6 +7,7 @@ export default class TelemetryGroup extends EventEmitter {
         this.ids = ids;
         this.triggers = triggers;
         this.metadata = {};
+        this.keys = {};
         this.unsubscribes = {};
         this.requests = {};
         this.latest = {};
@@ -40,6 +41,18 @@ export default class TelemetryGroup extends EventEmitter {
                     this.openmct.telemetry.request(object, bounds);
             }.bind(this));
         }, this)).then(function () {
+            let domain = this.openmct.time.timeSystem().key;
+
+            properties.forEach(function (property) {
+                let metadata = this.metadata[property];
+                let domainMetadata = metadata.valuesForHints(['domain'])
+                    .find((m) => m.source === domain || m.key === domain);
+                this.keys[property] = {
+                    domain: domainMetadata.source || domainMetadata.key || domain,
+                    range: metadata.valuesForHints(["range"])[0].key
+                };
+            });
+
             return Promise.all(properties.map(function (property) {
                 return this.requests[property].then(function (series) {
                     data[property] = series;
