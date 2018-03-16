@@ -27,7 +27,7 @@ export default function mapPlugin(options) {
 
         openmct.legacyExtension("controls", {
             key: "json",
-            template: "<code ng-controller='JSONController'><textarea ng-model='jsonText' rows=16></textarea></code>"
+            template: "<code ng-controller='JSONController' class='l-textarea-lg'><textarea ng-model='jsonText'></textarea></code>"
         });
 
         let isDatum = (selected) => selected.context.item.type === 'datum';
