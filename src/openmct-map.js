@@ -5,7 +5,7 @@ import OpenLayersMapView from './OpenLayersMapView';
 export default function mapPlugin(options) {
     return function (openmct) {
         function JSONController($scope) {
-            $scope.jsonText = JSON.stringify($scope.ngModel[$scope.field]);
+            $scope.jsonText = JSON.stringify($scope.ngModel[$scope.field], null, 4);
             $scope.$watch("jsonText", function (value) {
                 try {
                     $scope.ngModel[$scope.field] =
