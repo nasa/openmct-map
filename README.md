@@ -19,11 +19,11 @@ See [`index.html`](index.html) for an example of use.
 
 ## Developer Environment
 
-To serve the application, use `webpack-dev-loader`:
+To serve the application, use `webpack-dev-server`:
 
 ```bash
-npm install -g webpack webpack-dev-loader
-webpack-dev-loader
+npm install -g webpack webpack-dev-server
+webpack-dev-server
 ```
 
 There is an example `index.html` included which provides
