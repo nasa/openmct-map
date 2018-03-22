@@ -23,6 +23,7 @@ To serve the application, use `webpack-dev-server`:
 
 ```bash
 npm install -g webpack webpack-dev-server
+npm install nasa/openmct
 webpack-dev-server
 ```
 
