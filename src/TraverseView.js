@@ -13,6 +13,7 @@ export default class TraverseView {
         this.layers.forEach(layer => layer.show(this.map));
 
         let div = document.createElement('div');
+        div.className = "abs";
         element.appendChild(div);
         this.map.show(div);
         this.map.on('select', (selected) => this.selection.select(

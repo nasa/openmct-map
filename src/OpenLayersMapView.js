@@ -59,6 +59,15 @@ export default class OpenLayersMapView extends EventEmitter {
             'select',
             e.selected.map((e) => e.get('datum'))
         ));
+
+        this.loop();
+    }
+
+    loop() {
+        if (this.map) {
+            this.map.updateSize();
+            requestAnimationFrame(this.loop.bind(this));
+        }
     }
 
     destroy() {
