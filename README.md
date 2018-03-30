@@ -1,24 +1,18 @@
 # Open MCT Map
 
 ## v2 TODO:
-1. finish locationCombiner.subscribe
-2. implement measurementCombiner
-    * new type
-    * takes measurement channel, location channel
-    * yields coordinate + range value.
-3. Translate layer types:
-    * [X] path layer
-    * [x]point layer
-    * [x]heatmap layer
-    * fix "click on point" behavior.
-    * [x] add button for center rover.
-    * [x] add toggle button for rover following.
-    * [x] toggle active baselayer
-    * [x] toggle active heatmap 
-4. Read path types from rover.
-    
-3. translate map 
-4.
+1. needs to be responsive to time conductor events.
+2. should filter subscribed data outside current range.
+3. Need to be able to retrieve timestamp from point (e.g. feature)
+
+
+## Known Bugs
+1. Changing time system will break realtime data until view is reloaded.
+2. Does not currently obey time conductor.
+3. Can't retrieve timestamp from point.
+
+
+
 
 
 A plugin for [Open MCT](https://nasa.github.io/openmct)
@@ -37,9 +31,12 @@ available as `MapPlugin`.
 ## Configuration
 
 The Map Plugin exposes three new types for OpenMCT:
-* Location Combiner: Takes two telemetry points (one for x, one for y) and returns a location telemetry object.
+* Location Combiner: Takes two telemetry points (one for x, one for y) and returns a location telemetry object.  For testing, use one of these with two sine wave generators to get a "location".
 * Measurement Location Synthesizer: Takes two telemetry points (one for location, one for measurement), and returns a location measurement telemetry object.
 * Traverse Map: The actual map for users.
+
+The traverse map has a JSON field where you can specify layers to add.
+
 
 ## Usage
 
@@ -47,14 +44,12 @@ See [`index.html`](index.html) for an example of use.
 
 ## Developer Environment
 
-To serve the application, use `webpack-dev-server`:
+You'll need to install nasa/openmct, and then run the simple dev server.
+
+Rollup seems to fail to detect changes in files on some systems, so you might 
+spend a lot of time restarting the dev server.
 
 ```bash
-npm install -g webpack webpack-dev-server
 npm install nasa/openmct
-webpack-dev-server
+npm run dev
 ```
-
-There is an example `index.html` included which provides
-a basic instance of Open MCT with this plugin installed for development
-purposes.
