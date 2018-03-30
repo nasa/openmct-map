@@ -1,6 +1,6 @@
 {
   "name": "openmct-map",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "Traverse maps for Open MCT",
   "main": "index.js",
   "scripts": {
@@ -8,11 +8,12 @@
     "build": "rollup -c",
     "watch": "rollup -c -w",
     "start": "serve .",
+    "prepare": "rollup -c",
     "dev": "npm-run-all --parallel start watch"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/VWoeltjen/openmct-map.git"
+    "url": "git+https://github.com/nasa/openmct-map.git"
   },
   "keywords": [
     "openmct"
@@ -23,9 +24,9 @@
   "author": "NASA Ames Research Center",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/VWoeltjen/openmct-map/issues"
+    "url": "https://github.com/nasa/openmct-map/issues"
   },
-  "homepage": "https://github.com/VWoeltjen/openmct-map#readme",
+  "homepage": "https://github.com/nasa/openmct-map#readme",
   "dependencies": {},
   "devDependencies": {
     "npm-run-all": "^4.1.2",
@@ -35,7 +36,6 @@
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-css-only": "^0.4.0",
     "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-postcss": "^1.4.1",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "serve": "^6.5.3"
   }
