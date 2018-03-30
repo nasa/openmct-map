@@ -6,10 +6,11 @@
     <title></title>
     <script src="node_modules/openmct/dist/openmct.js"></script>
     <script src="dist/openmct-map.js"></script>
+    <link rel="stylesheet" href="dist/openmct-map.css" type="text/css" media="screen">
     <script>
         var THIRTY_MINUTES = 30 * 60 * 1000;
         document.addEventListener("DOMContentLoaded", function () {
-            openmct.install(new MapPlugin());
+            openmct.install(new OpenMCTMapPlugin());
 
             openmct.install(openmct.plugins.MyItems());
             openmct.install(openmct.plugins.LocalStorage());

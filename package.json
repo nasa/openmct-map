@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "webpack"
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "start": "serve .",
+    "dev": "npm-run-all --parallel start watch"
   },
   "repository": {
     "type": "git",
@@ -23,19 +26,17 @@
     "url": "https://github.com/VWoeltjen/openmct-map/issues"
   },
   "homepage": "https://github.com/VWoeltjen/openmct-map#readme",
-  "dependencies": {
-    "proj4": "^2.4.4"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "css-loader": "^0.28.7",
-    "eventemitter3": "^3.0.1",
-    "html-loader": "^0.5.1",
-    "node-sass": "^4.7.2",
+    "npm-run-all": "^4.1.2",
     "ol": "^4.6.4",
-    "sass-loader": "^6.0.6",
-    "style-loader": "^0.19.0",
-    "uglifyjs-webpack-plugin": "^1.1.2",
-    "vue": "^2.5.2",
-    "webpack": "^3.10.0"
+    "openmct": "git+ssh://git@github.com/nasa/openmct.git",
+    "rollup": "^0.57.1",
+    "rollup-plugin-commonjs": "^9.1.0",
+    "rollup-plugin-css-only": "^0.4.0",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-postcss": "^1.4.1",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "serve": "^6.5.3"
   }
 }

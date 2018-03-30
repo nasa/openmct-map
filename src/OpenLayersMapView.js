@@ -20,45 +20,64 @@ import TileWMS from 'ol/source/tilewms';
 import Select from 'ol/interaction/select';
 import Draw from 'ol/interaction/draw';
 import condition from 'ol/events/condition';
+import extent from 'ol/extent';
 
 import EventEmitter from 'eventemitter3';
 
 export default class OpenLayersMapView extends EventEmitter {
     constructor() {
         super();
-        this.map = new Map({
-            view: new View({
-                projection: new Projection({
-                    code: "none",
-                    units: "m",
-                    extent: [0, 0, 700000, 1300000]
-                }),
-                center: [0, 0],
-                zoom: 26
-            })
+        this.extent = [-600, -600, 600, 600];
+        this.projection = new Projection({
+            code: "baselayer_pixels",
+            units: "pixels",
+            extent: this.extent
         });
     }
 
     show(element) {
-        let select = new Select({ hitTolerance: 10 });
-        let source = new Vector({ features: [] });
-        let draw = new Draw({ source, type: 'Point', condition: condition.altKeyOnly });
-        this.map.addLayer(new VectorLayer({ source }));
-        this.map.setTarget(element);
-        this.map.render();
 
-        this.map.addInteraction(select);
-        this.map.addInteraction(draw);
-
-        draw.on('drawend', function (event) {
-            let coordinates = event.feature.getGeometry().getCoordinates();
-            event.feature.set('datum', { x: coordinates[0], y: coordinates[1] });
+        this.map = new Map({
+            view: new View({
+                projection: this.projection,
+                center: [0, 0],
+                zoom: 2,
+                maxRoom: 8
+            }),
+            layers: [
+                new ImageLayer({
+                    source: new ImageStatic({
+                        imageExtent: this.extent,
+                        url: '/ortho1200m.png',
+                        projection: this.projection
+                    })
+                })
+            ],
+            center: extent.getCenter(this.extent),
+            target: element
         });
 
-        select.on('select', (e) => this.emit(
-            'select',
-            e.selected.map((e) => e.get('datum'))
-        ));
+        // this.map.addLayer();
+
+        // let select = new Select({ hitTolerance: 10 });
+        // let source = new Vector({ features: [] });
+        // let draw = new Draw({ source, type: 'Point', condition: condition.altKeyOnly });
+        // this.map.addLayer(new VectorLayer({ source }));
+        // this.map.setTarget(element);
+        // this.map.render();
+        //
+        // this.map.addInteraction(select);
+        // this.map.addInteraction(draw);
+        //
+        // draw.on('drawend', function (event) {
+        //     let coordinates = event.feature.getGeometry().getCoordinates();
+        //     event.feature.set('datum', { x: coordinates[0], y: coordinates[1] });
+        // });
+        //
+        // select.on('select', (e) => this.emit(
+        //     'select',
+        //     e.selected.map((e) => e.get('datum'))
+        // ));
     }
 
     destroy() {

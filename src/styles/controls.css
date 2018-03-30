@@ -1,0 +1,8 @@
+.mct-map-controls {
+    top: 65px;
+    left: .5em;
+}
+
+.ol-touch .mct-map-controls {
+    top: 80px;
+}
