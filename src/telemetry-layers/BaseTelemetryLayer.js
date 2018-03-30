@@ -107,15 +107,24 @@ export default class BaseTelemetryLayer {
         this.queue = []; // queue realtime data to prevent having to reorder.
         this.openmct.telemetry.request(this.telemetryObject)
             .then((data) => {
-                if (this.loadTracker !== loadTracker) {
-                    return;
-                }
-                this.stopLoading();
-                this.loading = false;
-                if (this.destroyed) {
-                    return;
-                }
-                data.forEach((datum) => this.add(datum));
+                return new Promise((resolve, reject) => {
+                    let work = () => {
+                        if (this.loadTracker !== loadTracker) {
+                            return;
+                        }
+                        if (this.destroyed) {
+                            return;
+                        }
+                        data.splice(0, 100).forEach((datum) => this.add(datum));
+                        if (data.length === 0) {
+                            this.stopLoading();
+                            resolve();
+                        } else {
+                            setTimeout(work, 10);
+                        }
+                    };
+                    work();
+                });
             });
     }
     clear() {
