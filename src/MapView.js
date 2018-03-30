@@ -57,7 +57,6 @@ export default class MapView {
         this.heatmapLayers = [];
         this.baseLayers = [];
         this.following = false;
-        window.map = this;
     }
 
     show(element) {
@@ -84,7 +83,7 @@ export default class MapView {
         };
 
         this.map = new Map({
-            controls: control.defaults().extend([
+            controls: control.defaults({attribution: false}).extend([
                 new MapControls({
                     baseLayers: this.baseLayers,
                     heatmapLayers: this.heatmapLayers,
@@ -98,14 +97,6 @@ export default class MapView {
                 maxRoom: 8
             }),
             layers: [],
-            //     new ImageLayer({
-            //         source: new ImageStatic({
-            //             imageExtent: this.extent,
-            //             url: '/ortho1200m.png',
-            //             projection: this.projection
-            //         })
-            //     })
-            // ],
             overlays: [this.overlay],
             center: extent.getCenter(this.extent),
             target: this.mapElement
@@ -114,7 +105,7 @@ export default class MapView {
         this.pointLayer = new PointLayer(this.map);
 
         this.map.on('singleclick', (event) => {
-            // TODO: Fetch
+            // TODO: Fetch nearest feature and show in popup.
             let coord = event.coordinate;
             let x = coord[0];
             let y = coord[1];
@@ -125,6 +116,10 @@ export default class MapView {
             this.overlay.setPosition(coord);
             this.pointLayer.move(x, y);
         });
+
+        if (this.canFollow()) {
+            this.trackPositionUpdates();
+        }
 
         this.loadLayersFromObject(this.domainObject);
     }
@@ -164,7 +159,6 @@ export default class MapView {
     }
 
     loadLayersFromObject() {
-        // TODO: read JSON and load layers.
         this.domainObject.layers.forEach((layerDefinition) => {
             let layer = this.makeLayer(layerDefinition);
             if (!layer) {
@@ -172,6 +166,40 @@ export default class MapView {
             }
             this.layers.push(layer);
         });
+    }
+
+    trackPositionUpdates() {
+        this.openmct.objects.get(this.domainObject.followPosition)
+            .then((followObject) => {
+                if (!this.map) {
+                    return; // leave if destroyed.
+                }
+                let metadata = this.openmct.telemetry.getMetadata(followObject);
+                let xMeta = metadata.valuesForHints(['xCoordinate'])[0];
+                let yMeta = metadata.valuesForHints(['yCoordinate'])[0];
+                let xFormat = this.openmct.telemetry.getValueFormatter(xMeta);
+                let yFormat = this.openmct.telemetry.getValueFormatter(yMeta);
+                this.unsubscribe = this
+                    .openmct
+                    .telemetry
+                    .subscribe(followObject, (datum) => {
+                        this.setLastPosition(xFormat.parse(datum), yFormat.parse(datum));
+                    });
+            });
+    }
+
+    setLastPosition(x, y) {
+        this.lastPosition = [x, y];
+        this.followIfActive();
+    }
+
+    followIfActive() {
+        if (!this.following || !this.lastPosition) {
+            return;
+        }
+        this.map
+            .getView()
+            .setCenter(this.lastPosition);
     }
 
     canFollow() {
@@ -183,6 +211,7 @@ export default class MapView {
             return this.following;
         }
         this.following = value;
+        this.followIfActive();
         return this.following;
     }
 
@@ -190,5 +219,9 @@ export default class MapView {
         this.map.setTarget(null);
         delete this.map;
         this.layers.forEach((layer) => layer.destroy());
+        if (this.unsubscribe) {
+            this.unsubscribe();
+            delete this.unsubscribe;
+        }
     }
 }

@@ -140,11 +140,79 @@ timestamped x, y, z coordinate telemetry.`,
             return domainObject.type === 'telemetry.location-combiner';
         },
         subscribe: function (domainObject, callback) {
-            // TODO: subscribe to both and merge points as they arrive.
-            var latest = {};
-            // var metas
-            // function updateX(datum);
+            var telem = {};
+            var done = false;
+            var unsubscribes = [];
+
+            function sendUpdate() {
+                if (done) {
+                    return;
+                }
+                if (!telem.y.latest || !telem.x.latest) {
+                    return;
+                }
+                if (telem.y.latestTimestamp !== telem.x.latestTimestamp) {
+                    return;
+                }
+                var datum = {
+                    x: telem.x.coordFormat.parse(telem.x.latest),
+                    y: telem.y.coordFormat.parse(telem.y.latest)
+                }
+                datum[openmct.time.timeSystem().key] = Math.max(
+                    telem.x.latestTimestamp,
+                    telem.y.latestTimestamp
+                );
+                delete telem.x.latest;
+                delete telem.y.latest;
+                delete telem.x.latestTimestamp;
+                delete telem.y.latestTimestamp;
+                callback(datum);
+            }
+
+            openmct.objects.get(domainObject.xSource)
+                .then(function (xObject) {
+                    if (done) {
+                        return;
+                    }
+                    telem.x = {
+                        object: xObject
+                    };
+                    var metadata = openmct.telemetry.getMetadata(xObject);
+                    var valueMeta = metadata.valuesForHints(['range'])[0];
+                    telem.x.coordFormat = openmct.telemetry.getValueFormatter(valueMeta);
+                    telem.x.timestampFormat = openmct.telemetry.getValueFormatter(metadata.value(openmct.time.timeSystem().key));
+                    unsubscribes.push(openmct.telemetry.subscribe(xObject, function (datum) {
+                        telem.x.latest = datum;
+                        telem.x.latestTimestamp = telem.x.timestampFormat.parse(datum);
+                        sendUpdate();
+                    }));
+                });
+
+            openmct.objects.get(domainObject.ySource)
+                .then(function (yObject) {
+                    if (done) {
+                        return;
+                    }
+                    telem.y = {
+                        object: yObject
+                    };
+                    var metadata = openmct.telemetry.getMetadata(yObject);
+                    var valueMeta = metadata.valuesForHints(['range'])[0];
+                    telem.y.coordFormat = openmct.telemetry.getValueFormatter(valueMeta);
+                    telem.y.timestampFormat = openmct.telemetry.getValueFormatter(metadata.value(openmct.time.timeSystem().key));
+                    unsubscribes.push(openmct.telemetry.subscribe(yObject, function (datum) {
+                        telem.y.latest = datum;
+                        telem.y.latestTimestamp = telem.y.timestampFormat.parse(datum);
+                        sendUpdate();
+                    }));
+                });
+
             return function unsubscribe() {
+                done = true;
+                unsubscribes.forEach(function (u) {
+                    u();
+                });
+                unsubscribes = undefined;
             };
         }
     });

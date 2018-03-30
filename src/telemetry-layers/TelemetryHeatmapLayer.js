@@ -39,7 +39,6 @@ export default class TelemetryHeatmapLayer extends BaseTelemetryLayer {
     }
     add(datum) {
         var value = this.valueFormat.parse(datum);
-        (value - this.definition.low) / (this.definition.high - this.definition.low)
         this.source.addFeature(new Feature({
             geometry: new Point([
                 this.xFormat.parse(datum),
@@ -48,7 +47,7 @@ export default class TelemetryHeatmapLayer extends BaseTelemetryLayer {
             weight: (value - this.definition.low) / (this.definition.high - this.definition.low)
         }));
     }
-    destroy() {
+    beforeDestroy() {
         this.source.clear();
         delete this.source;
     }

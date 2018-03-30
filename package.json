@@ -31,7 +31,6 @@
   "devDependencies": {
     "npm-run-all": "^4.1.2",
     "ol": "^4.6.4",
-    "openmct": "git+ssh://git@github.com/nasa/openmct.git",
     "rollup": "^0.57.1",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-css-only": "^0.4.0",

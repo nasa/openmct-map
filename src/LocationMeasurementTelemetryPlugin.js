@@ -149,10 +149,82 @@ from a telemetry channel so that measurements can be displayed on a map or in an
         },
         subscribe: function (domainObject, callback) {
             // TODO: subscribe to both and merge points as they arrive.
-            var latest = {};
-            // var metas
-            // function updateX(datum);
+            var telem = {};
+            var done = false;
+            var unsubscribes = [];
+
+            openmct.objects.get(domainObject.locationSource)
+                .then(function (locationObject) {
+                    if (done) {
+                        return;
+                    }
+                    telem.location = {
+                        object: locationObject
+                    };
+                    var metadata = openmct.telemetry.getMetadata(locationObject);
+                    var xMeta = metadata.valuesForHints(['xCoordinate'])[0];
+                    var yMeta = metadata.valuesForHints(['yCoordinate'])[0];
+                    telem.location.xFormat = openmct.telemetry.getValueFormatter(xMeta);
+                    telem.location.yFormat = openmct.telemetry.getValueFormatter(yMeta);
+
+                    telem.location.timestampFormat = openmct
+                        .telemetry
+                        .getValueFormatter(metadata.value(openmct.time.timeSystem().key));
+
+                    unsubscribes.push(openmct.telemetry.subscribe(locationObject, function (datum) {
+                        telem.location.latest = datum;
+                        telem.location.latestTimestamp = telem.location.timestampFormat.parse(datum);
+                    }));
+                });
+
+            openmct.objects.get(domainObject.measurementSource)
+                .then(function (measurementObject) {
+                    if (done) {
+                        return;
+                    }
+                    telem.measurement = {
+                        object: measurementObject
+                    };
+                    var metadata = openmct
+                        .telemetry
+                        .getMetadata(measurementObject);
+
+                    var valueMeta = metadata.valuesForHints(['range'])[0];
+                    telem.measurement.rangeFormat = openmct
+                        .telemetry
+                        .getValueFormatter(valueMeta);
+
+                    telem.measurement.timestampFormat = openmct
+                        .telemetry
+                        .getValueFormatter(metadata.value(openmct.time.timeSystem().key));
+
+                    unsubscribes.push(openmct.telemetry.subscribe(measurementObject, function (datum) {
+                        var timestamp = telem.measurement.timestampFormat.parse(datum);
+                        if (done) {
+                            return;
+                        }
+                        if (!telem.location.latest) {
+                            return;
+                        }
+                        if (timestamp < telem.location.latestTimestamp) {
+                            return;
+                        }
+                        var resultDatum = {
+                            measurement: telem.measurement.rangeFormat.parse(datum),
+                            x: telem.location.xFormat.parse(telem.location.latest),
+                            y: telem.location.yFormat.parse(telem.location.latest),
+                        };
+                        resultDatum[openmct.time.timeSystem().key] = timestamp;
+                        callback(resultDatum);
+                    }));
+                });
+
             return function unsubscribe() {
+                done = true;
+                unsubscribes.forEach(function (u) {
+                    u();
+                });
+                unsubscribes = undefined;
             };
         }
     });

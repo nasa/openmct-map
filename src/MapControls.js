@@ -73,8 +73,8 @@ export default class MapControls extends Control {
         if (this.followButton) {
             this.followButton.onclick = () => {
                 this.map.follow(!this.map.follow());
+                return false;
             }
-            return false;
         }
     }
 };
