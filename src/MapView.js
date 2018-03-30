@@ -26,11 +26,11 @@ import extent from 'ol/extent';
 import control from 'ol/control';
 import PointLayer from './PointLayer';
 import TelemetryPointsLayer from './telemetry-layers/TelemetryPointsLayer';
+import TelemetryPointLayer from './telemetry-layers/TelemetryPointLayer';
 import TelemetryPathLayer from './telemetry-layers/TelemetryPathLayer';
 import TelemetryHeatmapLayer from './telemetry-layers/TelemetryHeatmapLayer';
 import StaticPathLayer from './telemetry-layers/StaticPathLayer';
 import MapControls from './MapControls';
-
 
 const TEMPLATE = `<div class="mct-map abs"></div>
 <div class="mct-map-popup">
@@ -127,6 +127,9 @@ export default class MapView {
     makeLayer(layerDefinition) {
         if (layerDefinition.type === 'path') {
             return new TelemetryPathLayer(this.map, layerDefinition, this.openmct);
+        }
+        if (layerDefinition.type === 'point') {
+            return new TelemetryPointLayer(this.map, layerDefinition, this.openmct);
         }
         if (layerDefinition.type === 'points') {
             return new TelemetryPointsLayer(this.map, layerDefinition, this.openmct);

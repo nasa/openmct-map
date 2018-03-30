@@ -5,16 +5,16 @@ import Feature from 'ol/feature';
 
 import BaseTelemetryLayer from './BaseTelemetryLayer';
 
-export default class TelemetryPointLayer extends BaseTelemetryLayer{
+export default class TelemetryPointLayer extends BaseTelemetryLayer {
     init() {
         this.useHistorical = false;
         this.point = new Point([]);
         this.layer = new VectorLayer({
             source: new Vector({features: [
                 new Feature({
-                    geometry: this.point;
+                    geometry: this.point
                 })
-            ]})
+            ]}),
             style: this.getStyle()
         });
     }
