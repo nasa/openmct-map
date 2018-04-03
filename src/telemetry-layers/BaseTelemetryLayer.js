@@ -115,7 +115,9 @@ export default class BaseTelemetryLayer {
 
     addRealtimeDatum(datum) {
         let timestamp = this.timestampFormat.parse(datum);
-        if (timestamp > (this.bounds.end + 5)) {
+        // don't add datums outside bounds.  Uses some padding in cases
+        // where time conductor is slightly behind.
+        if (timestamp > (this.bounds.end + 5000)) {
             return;
         }
         if (timestamp < this.bounds.start) {
