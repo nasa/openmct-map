@@ -1,19 +1,11 @@
 # Open MCT Map
 
-## v2 TODO:
-1. needs to be responsive to time conductor events.
-2. should filter subscribed data outside current range.
-3. Need to be able to retrieve timestamp from point (e.g. feature)
-
+## v0.3.0 TODO:
+1. Retrieve timestamp from point.
+2. Implement time based baselayers.
 
 ## Known Bugs
-1. Changing time system will break realtime data until view is reloaded.
-2. Does not currently obey time conductor.
-3. Can't retrieve timestamp from point.
-
-
-
-
+1. Changing time system will will probably break realtime data until view is reloaded.
 
 A plugin for [Open MCT](https://nasa.github.io/openmct)
 adding map style visualizations.
