@@ -32,6 +32,9 @@ import TelemetryHeatmapLayer from './telemetry-layers/TelemetryHeatmapLayer';
 import StaticPathLayer from './telemetry-layers/StaticPathLayer';
 import MapControls from './MapControls';
 import MapLayerInfo from './MapLayerInfo';
+import DragPan from 'ol/interaction/dragpan';
+import MouseWheelZoom from 'ol/interaction/mousewheelzoom';
+import KeyboardPan from 'ol/interaction/keyboardpan';
 
 const TEMPLATE = `<div class="mct-map abs"></div>
 <div class="mct-map-popup">
@@ -236,11 +239,34 @@ export default class MapView {
         this.layerInfo.setHeatmap(layer);
     }
 
+    /**
+     * Set follow mode to given value.  If no value passed, returns current
+     * follow mode.  When following, panning is disabled and mousewheel zoom
+     * will be centered on rover.
+     */
     follow(value) {
         if (arguments.length === 0) {
             return this.following;
         }
         this.following = value;
+        let dragPan = this.map.getInteractions()
+            .getArray()
+            .filter((i) => i instanceof DragPan)[0];
+        if (dragPan) {
+            dragPan.setActive(!this.following);
+        }
+        let keyboardPan = this.map.getInteractions()
+            .getArray()
+            .filter((i) => i instanceof KeyboardPan)[0];
+        if (keyboardPan) {
+            keyboardPan.setActive(!this.following);
+        }
+        let mouseWheelZoom = this.map.getInteractions()
+            .getArray()
+            .filter((i) => i instanceof MouseWheelZoom)[0];
+        if (mouseWheelZoom) {
+            mouseWheelZoom.setMouseAnchor(!this.following);
+        }
         this.followIfActive();
         return this.following;
     }

@@ -6,3 +6,16 @@
 .ol-touch .mct-map-controls {
     top: 80px;
 }
+
+.mct-map-controls .mct-map-follow-rover:active {
+    background-color: rgba(0,136,60,0.7);
+}
+
+.mct-map-controls .mct-map-follow-active,
+.mct-map-controls .mct-map-follow-active:focus {
+    background-color: rgba(0,136,60,0.5);
+}
+
+.mct-map-controls .mct-map-follow-active:hover {
+    background-color: rgba(0,136,60,0.7);
+}

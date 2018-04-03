@@ -67,6 +67,11 @@ export default class MapControls extends Control {
         if (this.followButton) {
             this.followButton.onclick = () => {
                 this.map.follow(!this.map.follow());
+                if (this.map.follow()) {
+                    this.followButton.className = 'mct-map-follow-rover mct-map-follow-active';
+                } else {
+                    this.followButton.className = 'mct-map-follow-rover';
+                }
                 return false;
             }
         }
