@@ -14,17 +14,6 @@ export default class TelemetryPointsLayer extends BaseTelemetryLayer{
             style: this.getStyle()
         });
     }
-
-    readMetadata() {
-        let metadata = this.openmct.telemetry.getMetadata(this.telemetryObject);
-        let xMeta = metadata.valuesForHints(['xCoordinate'])[0];
-        let yMeta = metadata.valuesForHints(['yCoordinate'])[0];
-        // let valueMeta = metadata.valuesForHints(['range'])[0];
-        this.xFormat = this.openmct.telemetry.getValueFormatter(xMeta);
-        this.yFormat = this.openmct.telemetry.getValueFormatter(yMeta);
-        // this.valueFormat = this.openmct.telemetry.getValueFormatter(valueMeta);
-    }
-
     clear() {
         this.source.clear();
     }

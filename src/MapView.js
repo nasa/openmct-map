@@ -186,23 +186,33 @@ export default class MapView {
     }
 
     trackPositionUpdates() {
-        this.openmct.objects.get(this.domainObject.followPosition)
-            .then((followObject) => {
-                if (!this.map) {
-                    return; // leave if destroyed.
-                }
-                let metadata = this.openmct.telemetry.getMetadata(followObject);
-                let xMeta = metadata.valuesForHints(['xCoordinate'])[0];
-                let yMeta = metadata.valuesForHints(['yCoordinate'])[0];
-                let xFormat = this.openmct.telemetry.getValueFormatter(xMeta);
-                let yFormat = this.openmct.telemetry.getValueFormatter(yMeta);
-                this.unsubscribe = this
-                    .openmct
-                    .telemetry
-                    .subscribe(followObject, (datum) => {
-                        this.setLastPosition(xFormat.parse(datum), yFormat.parse(datum));
-                    });
-            });
+        // We use a TelemetyPointLayer so we don't have to reimplement
+        // Time API listeners and such.
+        this.positionLayer = new TelemetryPointLayer(this.map, {
+            name: "Hidden position layer",
+            source: this.domainObject.followPosition
+        }, this.openmct);
+        let oldAdd = this.positionLayer.add.bind(this.positionLayer);
+        this.positionLayer.add = (datum) => {
+            oldAdd(datum);
+            let coordinate = this.positionLayer.point.getCoordinates();
+            if (!coordinate) {
+                return;
+            }
+            if (!this.positionLayer.loading) {
+                this.setLastPosition(coordinate[0], coordinate[1]);
+            }
+        }
+        let oldStopLoading = this.positionLayer.stopLoading.bind(this.positionLayer);
+        this.positionLayer.stopLoading = () => {
+            oldStopLoading();
+            let coordinate = this.positionLayer.point.getCoordinates();
+            if (!coordinate) {
+                return;
+            }
+            this.setLastPosition(coordinate[0], coordinate[1]);
+        }
+        this.positionLayer.layer.setVisible(false);
     }
 
     setLastPosition(x, y) {
@@ -278,9 +288,8 @@ export default class MapView {
         this.map.setTarget(null);
         delete this.map;
         this.layers.forEach((layer) => layer.destroy());
-        if (this.unsubscribe) {
-            this.unsubscribe();
-            delete this.unsubscribe;
+        if (this.positionLayer) {
+            this.positionLayer.destroy();
         }
     }
 }

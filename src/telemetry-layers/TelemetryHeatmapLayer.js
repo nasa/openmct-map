@@ -25,12 +25,8 @@ export default class TelemetryHeatmapLayer extends BaseTelemetryLayer {
     }
 
     readMetadata() {
-        let metadata = this.openmct.telemetry.getMetadata(this.telemetryObject);
-        let xMeta = metadata.valuesForHints(['xCoordinate'])[0];
-        let yMeta = metadata.valuesForHints(['yCoordinate'])[0];
-        let valueMeta = metadata.valuesForHints(['range'])[0];
-        this.xFormat = this.openmct.telemetry.getValueFormatter(xMeta);
-        this.yFormat = this.openmct.telemetry.getValueFormatter(yMeta);
+        super.readMetadata();
+        let valueMeta = this.metadata.valuesForHints(['range'])[0];
         this.valueFormat = this.openmct.telemetry.getValueFormatter(valueMeta);
     }
 

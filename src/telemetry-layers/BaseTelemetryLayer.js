@@ -10,12 +10,15 @@ export default class BaseTelemetryLayer {
         this.openmct = openmct;
         this.useHistory = true;
         this.useRealtime = true;
+        this.onBoundsChange = this.onBoundsChange.bind(this);
+        this.onTimeSystemChange = this.onTimeSystemChange.bind(this);
         this.init();
         this.map.addLayer(this.layer);
         if (this.definition.source) {
             this.loadTelemetryObject(this.definition.source);
         }
         this.layer.setProperties({name: definition.name});
+
     }
 
     getStyle() {
@@ -55,7 +58,26 @@ export default class BaseTelemetryLayer {
     }
 
     readMetadata() {
-        // Default noop.
+        let xMeta = this.metadata.valuesForHints(['xCoordinate'])[0];
+        let yMeta = this.metadata.valuesForHints(['yCoordinate'])[0];
+        this.xFormat = this.openmct.telemetry.getValueFormatter(xMeta);
+        this.yFormat = this.openmct.telemetry.getValueFormatter(yMeta);
+    }
+
+    onTimeSystemChange(timeSystem) {
+        if (!timeSystem) {
+            return;
+        }
+        let timestampMeta = this.metadata.value(timeSystem.key)
+        this.timestampFormat = this.openmct.telemetry.getValueFormatter(timestampMeta);
+    }
+
+    onBoundsChange(bounds, isTick) {
+        this.bounds = bounds;
+        if (isTick) {
+            return;
+        }
+        this.loadTelemetryData();
     }
 
     loadTelemetryObject(objectId) {
@@ -65,7 +87,15 @@ export default class BaseTelemetryLayer {
                     return;
                 }
                 this.telemetryObject = telemetryObject;
+                this.metadata = this.openmct.telemetry.getMetadata(this.telemetryObject);
                 this.readMetadata();
+                if (this.useRealtime || this.useHistory) {
+                    this.isListeningToTime = true;
+                    this.bounds = this.openmct.time.bounds();
+                    this.onTimeSystemChange(this.openmct.time.timeSystem());
+                    this.openmct.time.on('bounds', this.onBoundsChange);
+                    this.openmct.time.on('timeSystem', this.onTimeSystemChange);
+                }
                 if (this.useRealtime) {
                     this.establishRealtime();
                 }
@@ -75,23 +105,38 @@ export default class BaseTelemetryLayer {
             });
     }
 
+    handleRealtimeDatum(datum) {
+        if (this.loading) {
+            this.queue.push(datum);
+        } else {
+            this.addRealtimeDatum(datum)
+        }
+    }
+
+    addRealtimeDatum(datum) {
+        let timestamp = this.timestampFormat.parse(datum);
+        if (timestamp > (this.bounds.end + 5)) {
+            return;
+        }
+        if (timestamp < this.bounds.start) {
+            return;
+        }
+        this.add(datum);
+    }
+
     establishRealtime() {
         this.unsubscribe = this
             .openmct
             .telemetry
             .subscribe(this.telemetryObject, (datum) => {
-                if (this.loading) {
-                    this.queue.push(datum);
-                } else {
-                    this.add(datum);
-                }
-            })
+                this.handleRealtimeDatum(datum);
+            });
     }
 
     stopLoading() {
         this.loading = false;
         this.queue.forEach((datum) => {
-            this.add(datum)
+            this.addRealtimeDatum(datum);
         });
         this.queue = [];
     }
@@ -139,6 +184,10 @@ export default class BaseTelemetryLayer {
     destroy() {
         this.beforeDestroy();
         this.destroyed = true;
+        if (this.isTrackingTime) {
+            this.openmct.time.off('timeSystem', this.onTimeSystemChange);
+            this.openmct.time.off('bounds', this.onBoundsChange);
+        }
         if (this.unsubscribe) {
             this.unsubscribe();
             delete this.unsubscribe;
