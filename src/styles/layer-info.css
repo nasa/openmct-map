@@ -1,0 +1,21 @@
+.mct-map-layer-info {
+    top: .5em;
+    left: 39px;
+}
+
+.mct-map-layer-info p {
+    background: rgba(0,60,136,0.5);
+    color: white;
+    margin: 0px 0px 2px 0px;
+    padding: 2px 2px 0px 2px;
+    font-size: 14px;
+    font-weight: 200;
+}
+
+.mct-map-layer-info p:last-child {
+    margin-bottom: 0px;
+}
+
+.ol-touch .mct-map-layer-info {
+    top: 30px;
+}

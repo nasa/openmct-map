@@ -31,6 +31,7 @@ import TelemetryPathLayer from './telemetry-layers/TelemetryPathLayer';
 import TelemetryHeatmapLayer from './telemetry-layers/TelemetryHeatmapLayer';
 import StaticPathLayer from './telemetry-layers/StaticPathLayer';
 import MapControls from './MapControls';
+import MapLayerInfo from './MapLayerInfo';
 
 const TEMPLATE = `<div class="mct-map abs"></div>
 <div class="mct-map-popup">
@@ -82,13 +83,16 @@ export default class MapView {
             return false;
         };
 
+        this.layerInfo = new MapLayerInfo();
+
         this.map = new Map({
             controls: control.defaults({attribution: false}).extend([
                 new MapControls({
                     baseLayers: this.baseLayers,
                     heatmapLayers: this.heatmapLayers,
                     map: this
-                })
+                }),
+                this.layerInfo
             ]),
             view: new View({
                 projection: this.projection,
@@ -139,6 +143,8 @@ export default class MapView {
             this.heatmapLayers.push(layer.layer);
             if (this.heatmapLayers.length > 1) {
                 layer.layer.setVisible(false);
+            } else {
+                this.setHeatmap(layer.layer);
             }
             return layer;
         }
@@ -153,10 +159,13 @@ export default class MapView {
                     projection: this.projection
                 })
             });
+            layer.setProperties({name: layerDefinition.name});
             this.map.addLayer(layer);
             this.baseLayers.push(layer);
             if (this.baseLayers.length > 1) {
                 layer.setVisible(false);
+            } else {
+                this.setBase(layer);
             }
         }
     }
@@ -207,6 +216,24 @@ export default class MapView {
 
     canFollow() {
         return this.domainObject.followPosition;
+    }
+
+    setBase(layer) {
+        this.baseLayers.filter((l) => l.getVisible())
+            .forEach((l) => l.setVisible(false));
+        if (layer) {
+            layer.setVisible(true);
+        }
+        this.layerInfo.setBaseLayer(layer);
+    }
+
+    setHeatmap(layer) {
+        this.heatmapLayers.filter((l) => l.getVisible())
+            .forEach((l) => l.setVisible(false));
+        if (layer) {
+            layer.setVisible(true);
+        }
+        this.layerInfo.setHeatmap(layer);
     }
 
     follow(value) {

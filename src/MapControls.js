@@ -38,12 +38,9 @@ export default class MapControls extends Control {
                 }
             }
             if (!isActive) {
-                this.heatmapLayers[0].setVisible(true);
-                return false;
-            }
-            this.heatmapLayers[i].setVisible(false);
-            if (this.heatmapLayers[i+1]) {
-                this.heatmapLayers[i+1].setVisible(true);
+                this.map.setHeatmap(this.heatmapLayers[0])
+            } else {
+                this.map.setHeatmap(this.heatmapLayers[i+1]);
             }
             return false;
         }
@@ -61,12 +58,9 @@ export default class MapControls extends Control {
                 }
             }
             if (!isActive) {
-                this.baseLayers[0].setVisible(true);
-                return false;
-            }
-            this.baseLayers[i].setVisible(false);
-            if (this.baseLayers[i+1]) {
-                this.baseLayers[i+1].setVisible(true);
+                this.map.setBase(this.baseLayers[0]);
+            } else {
+                this.map.setBase(this.baseLayers[i+1]);
             }
             return false;
         }
