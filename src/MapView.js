@@ -109,6 +109,8 @@ export default class MapView {
             target: this.mapElement
         });
 
+        this.resizeTimer = setInterval(() => this.map.updateSize(), 1000);
+
         this.pointLayer = new PointLayer(this.map);
 
         this.map.on('singleclick', (event) => {
@@ -272,6 +274,7 @@ export default class MapView {
     }
 
     destroy() {
+        this.clearInterval(this.resizeTimer);
         this.map.setTarget(null);
         delete this.map;
         this.layers.forEach((layer) => layer.destroy());
