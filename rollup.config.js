@@ -11,6 +11,9 @@ export default {
         format: 'umd',
         sourcemap: true
     },
+    watch: {
+        chokidar: true
+    },
     plugins: [
         css(),
         resolve(),
