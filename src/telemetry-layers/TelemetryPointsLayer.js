@@ -8,7 +8,6 @@ import BaseTelemetryLayer from './BaseTelemetryLayer';
 export default class TelemetryPointsLayer extends BaseTelemetryLayer{
     init() {
         this.source = new Vector({features: []});
-        // this.points = new MultiPoint([])
         this.layer = new VectorLayer({
             source: this.source,
             style: this.getStyle()
@@ -16,6 +15,14 @@ export default class TelemetryPointsLayer extends BaseTelemetryLayer{
     }
     clear() {
         this.source.clear();
+    }
+    addMany(data) {
+        this.source.addFeatures(data.map((datum) => new Feature({
+            geometry: new Point([
+                this.xFormat.parse(datum),
+                this.yFormat.parse(datum)
+            ])
+        })));
     }
     add(datum) {
         this.source.addFeature(new Feature({

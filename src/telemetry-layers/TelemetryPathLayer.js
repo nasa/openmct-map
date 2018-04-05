@@ -20,6 +20,17 @@ export default class TelemetryPathLayer extends BaseTelemetryLayer{
     clear() {
         this.line.setCoordinates([]);
     }
+
+    addMany(data) {
+        var coordinates = this.line.getCoordinates();
+        data.forEach((datum) => {
+            coordinates.push([
+            this.xFormat.parse(datum),
+            this.yFormat.parse(datum)
+        ])});
+        this.line.setCoordinates(coordinates);
+    }
+
     add(datum) {
         this.line.appendCoordinate([
             this.xFormat.parse(datum),

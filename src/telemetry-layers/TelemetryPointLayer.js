@@ -21,6 +21,9 @@ export default class TelemetryPointLayer extends BaseTelemetryLayer {
     clear() {
         this.point.setCoordinates([]);
     }
+    addMany(data) {
+        this.add(data[data.length - 1]);
+    }
     add(datum) {
         this.point.setCoordinates([
             this.xFormat.parse(datum),
