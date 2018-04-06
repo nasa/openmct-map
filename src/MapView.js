@@ -35,6 +35,7 @@ import MapLayerInfo from './MapLayerInfo';
 import DragPan from 'ol/interaction/dragpan';
 import MouseWheelZoom from 'ol/interaction/mousewheelzoom';
 import KeyboardPan from 'ol/interaction/keyboardpan';
+import Zoom from 'ol/control/zoom';
 
 const TEMPLATE = `<div class="mct-map abs"></div>
 <div class="mct-map-popup">
@@ -88,15 +89,21 @@ export default class MapView {
 
         this.layerInfo = new MapLayerInfo();
 
+        let zoomControl = new Zoom({className: 'ol-zoom l-btn-set'});
+        zoomControl.element.querySelectorAll('button').forEach((b) => {
+            b.className += ' s-button';
+        });
+
         this.map = new Map({
-            controls: control.defaults({attribution: false}).extend([
+            controls: [
+                zoomControl,
                 new MapControls({
                     baseLayers: this.baseLayers,
                     heatmapLayers: this.heatmapLayers,
                     map: this
                 }),
                 this.layerInfo
-            ]),
+            ],
             view: new View({
                 projection: this.projection,
                 center: [0, 0],
