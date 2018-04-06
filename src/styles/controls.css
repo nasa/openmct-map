@@ -1,6 +1,20 @@
 .mct-map-controls {
-    top: 65px;
+    top: 70px;
     left: .5em;
+}
+
+.mct-map-popup-content p {
+    font-size: 0.8rem;
+    margin: 0 0 2px 0 !important;
+}
+
+.mct-map-popup-content input {
+    background: none !important;
+    box-shadow: none !important;
+    color: #333 !important;
+    padding: 0 !important;
+    font-size: 0.8rem;
+    width: 100%;
 }
 
 .ol-touch .mct-map-controls {
@@ -18,4 +32,26 @@
 
 .mct-map-controls .mct-map-follow-active:hover {
     background-color: rgba(0,136,60,0.7);
+}
+
+.ol-viewport .ol-control {
+    -webkit-transition-property: opacity;
+    -moz-transition-property: opacity;
+    transition-property: opacity;
+    -webkit-transition-duration: 150ms;
+    -moz-transition-duration: 150ms;
+    transition-duration: 150ms;
+    -webkit-transition-timing-function: ease-in-out;
+    -moz-transition-timing-function: ease-in-out;
+    transition-timing-function: ease-in-out;
+    -webkit-transition-delay: 0;
+    -moz-transition-delay: 0;
+    transition-delay: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.ol-viewport:hover .ol-control {
+    opacity: 1;
+    pointer-events: inherit;
 }

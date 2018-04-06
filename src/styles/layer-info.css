@@ -1,15 +1,18 @@
 .mct-map-layer-info {
-    top: .5em;
-    left: 39px;
+    background: none !important;
+    top: 70px;
+    left: 42px;
+}
+
+.mct-map-layer-info .mct-map-baselayer-info,
+.mct-map-layer-info .mct-map-heatmap-info {
+    opacity: 0.4;
 }
 
 .mct-map-layer-info p {
-    background: rgba(0,60,136,0.5);
-    color: white;
+    color: #ccc;
     margin: 0px 0px 2px 0px;
-    padding: 2px 2px 0px 2px;
-    font-size: 14px;
-    font-weight: 200;
+    font-size: 0.8rem;
 }
 
 .mct-map-layer-info p:last-child {
