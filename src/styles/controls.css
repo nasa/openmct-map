@@ -47,8 +47,8 @@
     -webkit-transition-delay: 0;
     -moz-transition-delay: 0;
     transition-delay: 0;
-    opacity: 1;
-    /*pointer-events: none;*/
+    opacity: 0;
+    pointer-events: none;
 
     /* Overrides */
     background: none;
@@ -70,6 +70,7 @@
     line-height: 22px;
     width: auto;
     margin: 0;
+    margin-right: 1px;
     padding: 0 7.5px;
 }
 
