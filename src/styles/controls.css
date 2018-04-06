@@ -1,6 +1,6 @@
 .mct-map-controls {
-    top: 70px;
-    left: .5em;
+    top: 0px;
+    left: 60px;
 }
 
 .mct-map-popup-content p {
@@ -47,11 +47,32 @@
     -webkit-transition-delay: 0;
     -moz-transition-delay: 0;
     transition-delay: 0;
-    opacity: 0;
-    pointer-events: none;
+    opacity: 1;
+    /*pointer-events: none;*/
+
+    /* Overrides */
+    background: none;
+    border-radius: inherit !important;
+    padding: 0 !important;
 }
 
 .ol-viewport:hover .ol-control {
     opacity: 1;
     pointer-events: inherit;
+}
+
+.ol-viewport .ol-control button.s-button {
+    background-color: none;
+    color: inherit;
+    display: inline-block;
+    font-weight: normal;
+    height: 22px;
+    line-height: 22px;
+    width: auto;
+    margin: 0;
+    padding: 0 7.5px;
+}
+
+.s-button {
+    font-size: 0.8rem !important;
 }
