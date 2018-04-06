@@ -284,7 +284,7 @@ export default class MapView {
     }
 
     destroy() {
-        this.clearInterval(this.resizeTimer);
+        clearInterval(this.resizeTimer);
         this.map.setTarget(null);
         delete this.map;
         this.layers.forEach((layer) => layer.destroy());
