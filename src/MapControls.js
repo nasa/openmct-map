@@ -7,13 +7,13 @@ export default class MapControls extends Control {
             options = {};
         }
         options.element = document.createElement('div');
-        options.element.className = 'mct-map-controls ol-unselectable ol-control'
+        options.element.className = 'mct-map-controls ol-unselectable ol-control l-btn-set'
         let template = `
-            <button title="Cycle Active Heatmap" class="mct-map-select-heatmap">H</button>
-            <button title="Cycle Active Baselayer" class="mct-map-select-baselayer">B</button>
+            <button title="Cycle Active Heatmap" class="mct-map-select-heatmap s-button">H</button>
+            <button title="Cycle Active Baselayer" class="mct-map-select-baselayer s-button">B</button>
         `;
         if (options.map && options.map.canFollow()) {
-            template += `<button title="Follow/Unfollow Rover"class="mct-map-follow-rover">F</button>`;
+            template += `<button title="Follow/Unfollow Rover"class="mct-map-follow-rover s-button">F</button>`;
         }
         options.element.innerHTML = template;
         super(options);

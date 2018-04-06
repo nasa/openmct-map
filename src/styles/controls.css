@@ -1,6 +1,6 @@
 .mct-map-controls {
-    top: 70px;
-    left: .5em;
+    top: 0px;
+    left: 60px;
 }
 
 .mct-map-popup-content p {
@@ -21,8 +21,10 @@
     top: 80px;
 }
 
-.mct-map-controls .mct-map-follow-rover:active {
-    background-color: rgba(0,136,60,0.7);
+.mct-map-controls .mct-map-follow-active {
+    background-color: none;
+    background: #0099cc !important;
+    color: #fff !important;
 }
 
 .mct-map-controls .mct-map-follow-active,
@@ -49,9 +51,31 @@
     transition-delay: 0;
     opacity: 0;
     pointer-events: none;
+
+    /* Overrides */
+    background: none;
+    border-radius: inherit !important;
+    padding: 0 !important;
 }
 
 .ol-viewport:hover .ol-control {
     opacity: 1;
     pointer-events: inherit;
+}
+
+.ol-viewport .ol-control button.s-button {
+    background-color: none;
+    color: inherit;
+    display: inline-block;
+    font-weight: normal;
+    height: 22px;
+    line-height: 22px;
+    width: auto;
+    margin: 0;
+    margin-right: 1px;
+    padding: 0 7.5px;
+}
+
+.s-button {
+    font-size: 0.8rem !important;
 }
