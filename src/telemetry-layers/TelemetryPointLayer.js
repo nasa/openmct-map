@@ -7,7 +7,7 @@ import BaseTelemetryLayer from './BaseTelemetryLayer';
 
 export default class TelemetryPointLayer extends BaseTelemetryLayer {
     init() {
-        this.useHistorical = false;
+        this.useHistory = false;
         this.point = new Point([]);
         this.layer = new VectorLayer({
             source: new Vector({features: [
