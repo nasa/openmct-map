@@ -8,7 +8,22 @@
 1. Changing time system will will probably break realtime data until view is reloaded.
 
 A plugin for [Open MCT](https://nasa.github.io/openmct)
-adding map style visualizations.
+adding map style visualizations.  This plugin is experimental and not intended
+for production usage.
+
+## Usage
+
+
+1. `npm install nasa/openmct-map`
+2. include `node_modules/openmct-map/dist/openmct-map.js` and `node_modules/openmct-map/dist/openmct-map.css` in your `index.html`, or load with your favorite module loader.
+    ```html
+    <script src="node_modules/openmct-map/dist/openmct-map.js"></script>
+    <link rel="stylesheet" href="node_modules/openmct-map/dist/openmct-map.css" type="text/css" media="screen">
+    ```
+3. install plugin in OpenMCT before starting:
+    ```javascript
+    openmct.install(new OpenMCTMapPlugin());
+    ```
 
 ## Build
 
