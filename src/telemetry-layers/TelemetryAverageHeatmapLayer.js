@@ -132,6 +132,7 @@ export default class TelemetryAverageHeatmapLayer extends BaseTelemetryLayer {
 
     clear() {
         this.source.clear();
+        this.buckets = {};
     }
     add(datum) {
         var x = this.xFormat.parse(datum);
