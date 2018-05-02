@@ -89,15 +89,24 @@ export default class TelemetryAverageHeatmapLayer extends BaseTelemetryLayer {
         this.setBucketStyle(bucket);
     }
 
+    colorForIndex(index) {
+        if (index < 0) {
+            return [255,255,255];
+        } else if (index > 255) {
+            return [0, 0, 0];
+        }
+        return [
+            this.gradient[index*4],
+            this.gradient[index*4+1],
+            this.gradient[index*4+2]
+        ]
+    }
+
     setBucketStyle(bucket) {
         bucket.feature.setStyle(new Style({
             image: new Circle({
                 fill: new Fill({
-                    color: [
-                        this.gradient[bucket.gradientIndex*4],
-                        this.gradient[bucket.gradientIndex*4+1],
-                        this.gradient[bucket.gradientIndex*4+2]
-                    ]
+                    color: this.colorForIndex(bucket.gradientIndex)
                 }),
                 radius: (bucket.size / 20) * 1/this.resolution
             })
