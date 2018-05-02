@@ -29,6 +29,7 @@ import TelemetryPointsLayer from './telemetry-layers/TelemetryPointsLayer';
 import TelemetryPointLayer from './telemetry-layers/TelemetryPointLayer';
 import TelemetryPathLayer from './telemetry-layers/TelemetryPathLayer';
 import TelemetryHeatmapLayer from './telemetry-layers/TelemetryHeatmapLayer';
+import TelemetryAverageHeatmapLayer from './telemetry-layers/TelemetryAverageHeatmapLayer';
 import StaticPathLayer from './telemetry-layers/StaticPathLayer';
 import MapControls from './MapControls';
 import MapLayerInfo from './MapLayerInfo';
@@ -38,6 +39,11 @@ import KeyboardPan from 'ol/interaction/keyboardpan';
 import Zoom from 'ol/control/zoom';
 
 const TEMPLATE = `<div class="mct-map abs"></div>
+<div class="mct-heatmap-scale">
+    <div class="mct-heatmap-scale-min"></div>
+    <div class="mct-heatmap-scale-image"></div>
+    <div class="mct-heatmap-scale-max"></div>
+</div>
 <div class="mct-map-popup">
     <a href="#" class="mct-map-popup-closer"></a>
     <div class="mct-map-popup-content"></div>
@@ -60,6 +66,7 @@ export default class MapView {
         });
         this.layers = [];
         this.heatmapLayers = [];
+        this.heatmaps = [];
         this.baseLayers = [];
         this.following = false;
     }
@@ -71,6 +78,11 @@ export default class MapView {
         this.popupElement = element.querySelector('.mct-map-popup');
         this.popupCloser = element.querySelector('.mct-map-popup-closer');
         this.popupContent = element.querySelector('.mct-map-popup-content');
+
+        this.heatmapScale = element.querySelector('.mct-heatmap-scale');
+        this.heatmapScaleMin = element.querySelector('.mct-heatmap-scale-min');
+        this.heatmapScaleMax = element.querySelector('.mct-heatmap-scale-max');
+        this.heatmapScaleImage = element.querySelector('.mct-heatmap-scale-image');
 
         this.overlay = new Overlay({
             element: this.popupElement,
@@ -153,6 +165,18 @@ export default class MapView {
         if (layerDefinition.type === 'heatmap') {
             var layer = new TelemetryHeatmapLayer(this.map, layerDefinition, this.openmct);
             this.heatmapLayers.push(layer.layer);
+            this.heatmaps.push(layer);
+            if (this.heatmapLayers.length > 1) {
+                layer.layer.setVisible(false);
+            } else {
+                this.setHeatmap(layer.layer);
+            }
+            return layer;
+        }
+        if (layerDefinition.type === 'average-heatmap') {
+            var layer = new TelemetryAverageHeatmapLayer(this.map, layerDefinition, this.openmct);
+            this.heatmapLayers.push(layer.layer);
+            this.heatmaps.push(layer);
             if (this.heatmapLayers.length > 1) {
                 layer.layer.setVisible(false);
             } else {
@@ -253,10 +277,23 @@ export default class MapView {
         this.heatmapLayers.filter((l) => l.getVisible())
             .forEach((l) => l.setVisible(false));
         if (layer) {
+            let mapLayer = this.heatmaps[this.heatmapLayers.indexOf(layer)];
             layer.setVisible(true);
+            if (mapLayer.gradientCanvas) {
+                this.heatmapScale.className = 'mct-heatmap-scale';
+                this.heatmapScaleMin.innerHTML = mapLayer.low;
+                this.heatmapScaleMax.innerHTML = mapLayer.high;
+                this.heatmapScaleImage.appendChild(mapLayer.gradientCanvas);
+            } else {
+                this.heatmapScale.className = 'mct-heatmap-scale hide';
+            }
+        } else {
+            this.heatmapScale.className = 'mct-heatmap-scale hide';
+            this.heatmapScaleImage.innerHTML = '';
         }
         this.layerInfo.setHeatmap(layer);
     }
+
 
     /**
      * Set follow mode to given value.  If no value passed, returns current

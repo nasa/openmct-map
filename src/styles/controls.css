@@ -79,3 +79,17 @@
 .s-button {
     font-size: 0.8rem !important;
 }
+
+.mct-heatmap-scale {
+    bottom: 0;
+    pointer-events: none;
+    position: absolute;
+}
+
+.mct-heatmap-scale.hide {
+    display: none;
+}
+
+.mct-heatmap-scale-image canvas {
+    transform: scale(30, 1);
+}

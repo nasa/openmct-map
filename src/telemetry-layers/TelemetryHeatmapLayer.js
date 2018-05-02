@@ -40,7 +40,7 @@ export default class TelemetryHeatmapLayer extends BaseTelemetryLayer {
                 this.xFormat.parse(datum),
                 this.yFormat.parse(datum)
             ]),
-            weight: (value - this.definition.low) / (this.definition.high - this.definition.low)
+            weight: (value - this.low) / (this.high - this.low)
         }));
     }
     beforeDestroy() {
