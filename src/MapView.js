@@ -283,6 +283,7 @@ export default class MapView {
                 this.heatmapScale.className = 'mct-heatmap-scale';
                 this.heatmapScaleMin.innerHTML = mapLayer.low;
                 this.heatmapScaleMax.innerHTML = mapLayer.high;
+                this.heatmapScaleImage.innerHTML = '';
                 this.heatmapScaleImage.appendChild(mapLayer.gradientCanvas);
             } else {
                 this.heatmapScale.className = 'mct-heatmap-scale hide';
