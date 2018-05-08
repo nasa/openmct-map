@@ -1,21 +1,24 @@
 .mct-map-layer-info {
     background: none !important;
-    top: 0px;
-    left: 140px;
-    height: 22px;
-    line-height: 22px;
+    top: 30px;
+    left: 5px;
+    height: auto;
+    line-height: 100%;
 }
 
 .mct-map-layer-info .mct-map-baselayer-info,
 .mct-map-layer-info .mct-map-heatmap-info {
-    opacity: 0.4;
+    opacity: 1;
 }
 
 .mct-map-layer-info p {
     color: #ccc;
-    display: inline-block;
-    margin: 0px 5px 0px 0px;
+    display: block;
+    margin: 0px 1px 0px 0px;
     font-size: 0.8rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .mct-map-layer-info p:last-child {
