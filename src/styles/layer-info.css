@@ -1,9 +1,11 @@
 .mct-map-layer-info {
     background: none !important;
     top: 30px;
+    right: 5px;
     left: 5px;
     height: auto;
     line-height: 100%;
+    pointer-events: none;
 }
 
 .mct-map-layer-info .mct-map-baselayer-info,
@@ -26,6 +28,8 @@
     margin-right: 0px;
 }
 
+/*
 .ol-touch .mct-map-layer-info {
     top: 30px;
 }
+*/

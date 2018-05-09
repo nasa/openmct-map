@@ -46,6 +46,8 @@
 
 .ol-viewport {
     background: rgba(0,128,0,0.3);
+    min-width: 150px;
+    min-height: 100px;
     position: absolute !important;
     top: 0 !important; right: 0 !important; bottom: 0 !important; left: 20px !important;
     height: auto !important; width: auto !important;
@@ -64,8 +66,8 @@
     -webkit-transition-delay: 0;
     -moz-transition-delay: 0;
     transition-delay: 0;
-    opacity: 1; /* TEMP */
-    pointer-events: none;
+    opacity: 1; /* TEMP, set back to 0 */
+    pointer-events: inherit; /* TEMP, set back to none */
 
     /* Overrides */
     background: none;
