@@ -3,12 +3,12 @@
     background-color: white;
     -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
     filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
-    padding: 15px;
-    border-radius: 10px;
+    padding: 5px;
+    border-radius: 5px;
     border: 1px solid #cccccc;
     bottom: 12px;
     left: -50px;
-    min-width: 280px;
+    min-width: 160px;
 }
 .mct-map-popup:after, .mct-map-popup:before {
     top: 100%;
@@ -41,3 +41,16 @@
     content: "✖";
 }
 
+.mct-map-popup-content p {
+    font-size: 0.8rem;
+    margin: 0 0 2px 0 !important;
+}
+
+.mct-map-popup-content input {
+    background: none !important;
+    box-shadow: none !important;
+    color: #333 !important;
+    padding: 0 !important;
+    font-size: 0.8rem;
+    width: 100%;
+}

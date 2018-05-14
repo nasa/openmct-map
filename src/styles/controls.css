@@ -9,26 +9,6 @@
     left: 60px;
 }
 
-.mct-map-popup-content p {
-    font-size: 0.8rem;
-    margin: 0 0 2px 0 !important;
-}
-
-.mct-map-popup-content input {
-    background: none !important;
-    box-shadow: none !important;
-    color: #333 !important;
-    padding: 0 !important;
-    font-size: 0.8rem;
-    width: 100%;
-}
-
-/*
-.ol-touch .mct-map-controls {
-    top: 80px;
-}
-*/
-
 .mct-map-controls .mct-map-follow-active {
     background-color: none;
     background: #0099cc !important;
@@ -45,7 +25,7 @@
 }
 
 .ol-viewport {
-    background: rgba(0,128,0,0.3);
+    background-color: rgba(0,0,0,0.1);
     min-width: 150px;
     min-height: 100px;
     position: absolute !important;
@@ -66,8 +46,8 @@
     -webkit-transition-delay: 0;
     -moz-transition-delay: 0;
     transition-delay: 0;
-    opacity: 1; /* TEMP, set back to 0 */
-    pointer-events: inherit; /* TEMP, set back to none */
+    opacity: 0; /* TEMP, set back to 0 */
+    pointer-events: none; /* TEMP, set back to none */
 
     /* Overrides */
     background: none;
@@ -87,6 +67,7 @@
     font-weight: normal;
     height: 22px;
     line-height: 22px;
+    outline: 0;
     width: auto;
     margin: 0;
     margin-right: 1px;
