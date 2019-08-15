@@ -31,7 +31,7 @@
     "chokidar": "^2.0.3",
     "npm-run-all": "^4.1.2",
     "ol": "^4.6.4",
-    "openmct": "github:nasa/openmct",
+    "openmct": "github:nasa/openmct#topic-core-refactor",
     "rollup": "^0.57.1",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-css-only": "^0.4.0",
