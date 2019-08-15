@@ -1,3 +1,7 @@
+.ol-overlaycontainer-stopevent {
+    display: contents;
+}
+
 .ol-zoom {
     top: 5px;
     left: 5px;
