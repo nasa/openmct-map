@@ -29,14 +29,15 @@
   "homepage": "https://github.com/nasa/openmct-map#readme",
   "devDependencies": {
     "chokidar": "^2.0.3",
+    "micromatch": "^4.0.2",
     "npm-run-all": "^4.1.2",
     "ol": "^4.6.4",
     "openmct": "github:nasa/openmct#topic-core-refactor",
-    "rollup": "^0.57.1",
-    "rollup-plugin-commonjs": "^9.1.0",
-    "rollup-plugin-css-only": "^0.4.0",
-    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup": "^1.27.11",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-css-only": "^1.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "serve": "^9.4.0"
+    "serve": "^11.2.0"
   }
 }
