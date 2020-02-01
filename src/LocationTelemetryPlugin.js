@@ -52,7 +52,7 @@ timestamped x, y, z coordinate telemetry.`,
                     return {
                         name: timeSystem.name,
                         key: timeSystem.key,
-                        format: timeSystem.format,
+                        format: timeSystem.timeFormat,
                         hints: {domain: i}
                     };
                 });

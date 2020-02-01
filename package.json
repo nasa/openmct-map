@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/nasa/openmct-map#readme",
   "devDependencies": {
-    "openmct": "nasa/openmct#topic-core-refactor",
+    "openmct": "nasa/openmct",
     "chokidar": "^2.0.3",
     "npm-run-all": "^4.1.2",
     "ol": "^4.6.4",
