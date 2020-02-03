@@ -7,17 +7,18 @@
     <script src="node_modules/openmct/dist/openmct.js"></script>
     <script src="dist/openmct-map.js"></script>
     <link rel="stylesheet" href="dist/openmct-map.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="node_modules/openmct/dist/openmct.css">
     <script>
         var THIRTY_MINUTES = 30 * 60 * 1000;
         document.addEventListener("DOMContentLoaded", function () {
             openmct.install(new OpenMCTMapPlugin());
 
+            openmct.setAssetPath('/node_modules/openmct/dist');
             openmct.install(openmct.plugins.MyItems());
             openmct.install(openmct.plugins.LocalStorage());
             openmct.install(openmct.plugins.Generator());
             openmct.install(openmct.plugins.ExampleImagery());
             openmct.install(openmct.plugins.UTCTimeSystem());
+            openmct.install(openmct.plugins.Espresso());
             openmct.install(openmct.plugins.Conductor({
                 menuOptions: [
                     {
