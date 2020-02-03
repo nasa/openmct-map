@@ -1,5 +1,23 @@
 export default function LocationTelemetryPlugin(openmct) {
 
+    function isNegation(idString) {
+        return idString[0] === '-';
+    }
+
+    function getLocationObject(idString) {
+        if (isNegation(idString)) {
+            idString = idString.substring(1);
+        }
+        return openmct.objects.get(idString);
+    }
+
+    function negateIfRequired(idString, value) {
+        if (isNegation(idString)) {
+            return -value;
+        }
+        return value;
+    }
+
     openmct.types.addType('telemetry.location-combiner', {
         name: 'Location Telemetry',
         description: `Combines telemetry from multiple sources to produce
@@ -52,7 +70,7 @@ timestamped x, y, z coordinate telemetry.`,
                     return {
                         name: timeSystem.name,
                         key: timeSystem.key,
-                        format: timeSystem.format,
+                        format: timeSystem.timeFormat,
                         hints: {domain: i}
                     };
                 });
@@ -81,7 +99,7 @@ timestamped x, y, z coordinate telemetry.`,
         request: function (domainObject, options) {
             var telemResults = {};
 
-            var xPromise = openmct.objects.get(domainObject.xSource)
+            var xPromise = getLocationObject(domainObject.xSource)
                 .then(function (xObject) {
                     telemResults.x = {
                         object: xObject
@@ -98,7 +116,7 @@ timestamped x, y, z coordinate telemetry.`,
                         });
                 });
 
-            var yPromise = openmct.objects.get(domainObject.ySource)
+            var yPromise = getLocationObject(domainObject.ySource)
                 .then(function (yObject) {
                     telemResults.y = {
                         object: yObject
@@ -155,8 +173,8 @@ timestamped x, y, z coordinate telemetry.`,
                     return;
                 }
                 var datum = {
-                    x: telem.x.coordFormat.parse(telem.x.latest),
-                    y: telem.y.coordFormat.parse(telem.y.latest)
+                    x: negateIfRequired(domainObject.xSource, telem.x.coordFormat.parse(telem.x.latest)),
+                    y: negateIfRequired(domainObject.ySource, telem.y.coordFormat.parse(telem.y.latest))
                 }
                 datum[openmct.time.timeSystem().key] = Math.max(
                     telem.x.latestTimestamp,
@@ -169,7 +187,7 @@ timestamped x, y, z coordinate telemetry.`,
                 callback(datum);
             }
 
-            openmct.objects.get(domainObject.xSource)
+            getLocationObject(domainObject.xSource)
                 .then(function (xObject) {
                     if (done) {
                         return;
@@ -188,7 +206,7 @@ timestamped x, y, z coordinate telemetry.`,
                     }));
                 });
 
-            openmct.objects.get(domainObject.ySource)
+            getLocationObject(domainObject.ySource)
                 .then(function (yObject) {
                     if (done) {
                         return;
