@@ -5,7 +5,7 @@
 2. Implement time based baselayers.
 
 ## Known Bugs
-1. Changing time system will will probably break realtime data until view is reloaded.
+1. Changing time system will probably break realtime data until view is reloaded.
 
 A plugin for [Open MCT](https://nasa.github.io/openmct)
 adding map style visualizations.  This plugin is experimental and not intended
